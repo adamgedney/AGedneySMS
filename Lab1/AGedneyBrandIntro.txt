@@ -1,0 +1,10 @@
+
+
+hackflix.com is a life hacks eLearning portal.
+
+
+
+Users will be able to view and favorite life hack video clips.
+hackflix.com will be gamified by displaying points for lessons watched.
+
+In coming versions, users can pit themselves against other hackflix users to see who can gain more points.
