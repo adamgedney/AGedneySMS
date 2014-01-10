@@ -7,18 +7,44 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box; }
 
-	
-body{
-background: $black;
-color: $white;
-font: 62.5% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+@font-face {
+    font-family: 'ai_kelsol';
+    src: url('kelson_light-webfont-webfont.eot');
+    src: url('kelson_light-webfont-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kelson_light-webfont-webfont.woff') format('woff'),
+         url('kelson_light-webfont-webfont.ttf') format('truetype'),
+         url('kelson_light-webfont-webfont.svg#ai_kelsol') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
 
+@mixin kelson_light{
+	@font-face {
+    font-family: 'ai_kelsor';
+    src: url('kelson_regular-webfont-webfont.eot');
+    src: url('kelson_regular-webfont-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kelson_regular-webfont-webfont.woff') format('woff'),
+         url('kelson_regular-webfont-webfont.ttf') format('truetype'),
+         url('kelson_regular-webfont-webfont.svg#ai_kelsor') format('svg');
+    font-weight: normal;
+    font-style: normal;
 
-h1,h2,h3,h4, nav, .video-links{
-font-family: 'Tangerine', cursive;
-color: $light-grey;
+	}	
+}
+
+	
+body{
+background: $black;
+color: $dark-grey;
+font: 62.5% "Merriweather", "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+}
+
+
+h1,h2,h3,h4{
+font-family: "ai_kelsor", "helvetica Neue Light", Helvetica, sans-serif;
+color: $grey;
 -webkit-font-smoothing: antialiased;
 }
 
@@ -30,7 +56,7 @@ line-height: 1.5em;
 h2{
 font-size: 4.2em;
 line-height: 1.5em;
-text-shadow: 1px 1px 1px rgba(255,255,255,0.4);
+// text-shadow: 1px 1px 1px rgba(255,255,255,0.4);
 }
 
 h3{
@@ -47,7 +73,7 @@ font-weight: 100;
 }
 
 p{
-	color: $light-grey;
+	color: $grey;
 }
 
 input{
@@ -85,12 +111,11 @@ img, iframe{
 }
 
 .red{
-	color: $dark-red;
+	color: $red;
 }
 
 .bold{
 	font-weight: 600;
-	color: #e6e6e6;
 }
 
 .cf:before,
