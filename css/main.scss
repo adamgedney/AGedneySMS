@@ -1,0 +1,141 @@
+/* 	Copyright Adam Gedney 12/2/13
+	contact: adam.gedney@gmail.com
+	http://adamgedney.com
+
+"Good UI design is humble.” – Jono DiCarlo
+
+
+/*Baseline Grid*/
+/*    3px    */
+
+/*----Sass Palette----*/
+$black: #101010;
+$rich-black: #000;
+$light-grey: #d0d0d0;
+$mid-grey: #363636;
+$grey: #7f7f7f;
+$dark-grey: #252525;
+$bg-grey: #171717;
+$white: #e6e6e6;
+$blue: #1e89b1;
+$purple: #AB14B4;
+$red: #cd241b;
+$dark-red: #490406;
+
+/*----Sass imports----*/
+@import "reset";
+@import "defaults";
+
+
+
+
+
+
+
+/*-----------------------Styles------------------------*/
+
+
+/*--------------------------------Media Queries------------------------*/
+/*
+*/
+/*--------------------------------Media Queries------------------------*/
+
+
+
+
+
+/* Smartphones  ----------- */
+@media only screen 
+and (min-width : 480px) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-width : 750px) {
+
+}/*min-width 750*/
+
+
+
+
+
+
+
+
+
+//adjusts header nav after JS removes slide in menu
+@media only screen 
+and (min-width : 769px) {
+
+
+}
+
+
+
+
+
+
+
+
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 837px) {
+
+}
+
+
+
+@media only screen 
+and (min-width : 960px) {
+
+}
+
+
+
+/* Desktops ---------------------- */
+@media only screen 
+and (min-width : 1140px) {
+
+}
+
+
+
+
+
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+}
+
+
+
+
+
+/*----Sass imports----*/
+@import "lightbox";
+
+
+
+
+
+
+
+
+
+

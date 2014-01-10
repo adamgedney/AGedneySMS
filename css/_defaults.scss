@@ -1,0 +1,115 @@
+/*--------------------------------------Defaults-------------------------------*/
+
+/* 	SET ALL ELEMENTS BOX-SIZING TO BORDER-BOX
+	If you need support for IE7 and lower use polyfill: https://github.com/Schepp/box-sizing-polyfill 
+	--Borrowed from responsive.gs*/
+* { -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box; }
+
+	
+body{
+background: $black;
+color: $white;
+font: 62.5% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+
+
+h1,h2,h3,h4, nav, .video-links{
+font-family: 'Tangerine', cursive;
+color: $light-grey;
+-webkit-font-smoothing: antialiased;
+}
+
+h1{
+font-size: 5.4em;
+line-height: 1.5em;
+}
+
+h2{
+font-size: 4.2em;
+line-height: 1.5em;
+text-shadow: 1px 1px 1px rgba(255,255,255,0.4);
+}
+
+h3{
+font-size: 2.7em;
+line-height: 1.5em;
+}
+
+p, ul, dl, label{
+font-size: 1.6em;
+line-height: 1.5em;
+margin-bottom: 20px;
+font-weight: 100;
+-webkit-font-smoothing: antialiased;
+}
+
+p{
+	color: $light-grey;
+}
+
+input{
+-webkit-font-smoothing: antialiased;
+}
+
+input[type=submit]{
+-webkit-appearance: none;
+}
+
+a{
+text-decoration: none;
+color: $blue;
+}
+
+a:hover, input[type=submit]:hover{
+	opacity: .6;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: $grey;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: $grey;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: $grey;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: $grey;
+}
+
+img, iframe{
+	max-width: 100%;
+}
+
+.red{
+	color: $dark-red;
+}
+
+.bold{
+	font-weight: 600;
+	color: #e6e6e6;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+
+
+
