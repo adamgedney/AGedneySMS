@@ -36,14 +36,14 @@ font-style: normal;
 
 	
 body{
-background: $white;
+background: $bg-white;
 color: $dark-grey;
 font: 62.5% "Merriweather", "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
 }
 
 
 h1,h2,h3,h4{
-font-family: "ai_kelsol";
+font-family: "ai_kelsol", "Helvetica Neue Light", Helvetica, Arial, sans-serif;
 color: $grey;
 -webkit-font-smoothing: antialiased;
 }
@@ -67,7 +67,7 @@ line-height: 1.5em;
 p, ul, dl, label{
 font-size: 1.6em;
 line-height: 1.5em;
-margin-bottom: 20px;
+// margin-bottom: 20px;
 font-weight: 100;
 -webkit-font-smoothing: antialiased;
 }
