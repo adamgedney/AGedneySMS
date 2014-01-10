@@ -89,6 +89,14 @@ nav{
 	position: absolute;
 	top: 0;
 	left: 0;
+	overflow: none;
+
+	img{
+		display: block;
+		width: 960px;
+		max-height: 100%;
+		margin: 0 auto;
+	}
 }
 
 .transport{
@@ -99,6 +107,62 @@ nav{
 	bottom: 0;
 	left: 0;
 }
+
+.transport_inner{
+	width: 920px;
+	margin: 0 auto;
+	overflow: hidden;
+
+	img{
+		// line-height: 42px;
+		vertical-align: middle;
+		padding-top: 6px;
+
+		:hover{
+			opacity: .7;
+		}
+	}
+
+
+	input[type=range]{
+		margin-top: 30px;
+		width: 175px;
+	}
+
+	//transport 3 col
+	.col_3{
+		width: 33.333333%;
+		float: left;
+	}
+}
+
+#play_btn, #pause_btn{
+	margin-top: 3px;
+	float: left;
+}
+
+#fav_btn, #fav_checked_btn{
+	width: 30px;
+	margin: 15px 50%;
+}
+
+#rec_btn, #camera_btn, #mic_btn{
+	float: right;
+	margin-left: 18px;
+	margin-top: 12px;
+}
+
+#camera_btn{
+	margin-top: 18px;
+}
+
+#rec_btn{
+	margin-top: 15px;
+}
+
+
+
+
 
 .body_nav{
 	width: 100%;
