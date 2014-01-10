@@ -171,18 +171,24 @@ nav{
 
 	nav{
 		float: none;
-		width: 472px;
+		width: 504px;
 		margin: 0 auto;
 		padding-top: 32px;
 		ul{
 			li{
-				padding-left: 72px;
+				padding-left: 108px;
 
 				a{
 					color: $blue;
 					font-size: 1.4em;
 				}
 			}
+
+			li:first-child{
+				padding-left: 0;
+				padding-right: 33px;
+			}
+
 		}
 	}
 }
@@ -230,7 +236,69 @@ p.desc_copy{
 	float: left;
 	padding-left: 18px;
 	border-right: 1px solid $grey;
+
+	textarea{
+		-webkit-appearance: none;
+		appearance: none;
+		border: 0;
+		border-radius: 2px;
+		border: 1px solid $grey;
+		width: 471px;
+		height: 96px;
+		padding: 9px;
+		display: block;
+		font-family: "Merriweather", "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+		font-size: 1.4em;
+		margin-top: 18px;
+	}
+
+	input[type=submit]{
+		width: 471px;
+		height: 45px;
+		margin-top: 9px;
+		border: 0;
+		border-radius: 2px;
+		color: $white;
+		background: $blue;
+		font-family: "ai_kelsol", "Helvetica Neue Light", Helvetica, Arial, sans-serif;
+		font-size: 2.1em;
+		margin-bottom: 36px;
+	}
 }
+
+.comments_wrapper{
+	height: 500px;
+	overflow: scroll;
+}
+
+.comment{
+	margin-top: 36px;
+
+	img{
+		border-radius: 27px;
+		margin-bottom: -15px;
+	}
+
+	h2{
+		display: inline;
+		margin-left: 9px;
+	}
+
+	h3{
+		display: inline;
+		margin-left: 18px;
+		font-size: 1.4em;
+	}
+
+	p{
+		width: 471px;
+		margin-top: 6px;
+		margin-left: 66px;
+		padding-bottom: 18px;
+		border-bottom: 1px solid $grey;
+	}
+}
+
 
 .lessons_container{
 	width: 50%;
@@ -241,7 +309,9 @@ p.desc_copy{
 
 
 
-
+footer{
+	height: 249px;
+}
 
 
 
