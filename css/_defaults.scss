@@ -44,23 +44,23 @@ font: 62.5% "Merriweather", "Lucida Bright", Lucidabright, "Lucida Serif", Lucid
 
 h1,h2,h3,h4{
 font-family: "ai_kelsol", "Helvetica Neue Light", Helvetica, Arial, sans-serif;
-color: $grey;
+color: $dark-grey;
 -webkit-font-smoothing: antialiased;
 }
 
 h1{
-font-size: 5.4em;
+font-size: 3.6em;
 line-height: 1.5em;
 }
 
 h2{
-font-size: 4.2em;
+font-size: 2.7em;
 line-height: 1.5em;
 // text-shadow: 1px 1px 1px rgba(255,255,255,0.4);
 }
 
 h3{
-font-size: 2.7em;
+font-size: 2.1em;
 line-height: 1.5em;
 }
 
@@ -73,7 +73,7 @@ font-weight: 100;
 }
 
 p{
-	color: $grey;
+	color: $dark-grey;
 }
 
 input{
@@ -112,6 +112,10 @@ img, iframe{
 
 .red{
 	color: $red;
+}
+
+.green{
+	color: $green;
 }
 
 .bold{

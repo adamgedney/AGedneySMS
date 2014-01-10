@@ -2747,7 +2747,7 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 //@codekit-prepend "jquery-1.10.2.min.js"
 //@codekit-prepend "jquery.event.special.js"
 //@codekit-prepend "jquery.easing.min.js"
-//@codekit-prepend "lightbox-2.6.min.js"
+@codekit-prepend "lightbox-2.6.min.js"
 //@codekit-prepend "handlebars-v1.1.2.js" 
 
 

@@ -5,8 +5,11 @@
 "Good UI design is humble.” – Jono DiCarlo
 
 
-/*Baseline Grid*/
-/*    3px    */
+/* Modular Scale 
+---------------------- 
+16px @ 1:3	  
+----------------------*/
+
 
 /*----Sass Palette----*/
 $black: #000000;
@@ -123,13 +126,53 @@ nav{
 .desc{
 	height: 360px;
 	border-bottom: 1px solid $grey;
+	padding: 33px 18px 0;
+	overflow: hidden;
+
+	h1{
+		display: inline-block;
+		margin-right: 36px;
+	}
+}
+
+p.time{
+	display: inline-block;
+}
+
+p.desc_copy{
+	width: 501px;
+	margin-top: 15px;
+	float: left;
+}
+
+.desc_gallery{
+	float: right;
+	margin-right: 18px;
+	margin-top: 18px;
+
+	img{
+		margin-right: 81px;
+	}
 }
 
 .content_container{
 	min-height: 750px;
+	overflow: hidden;
+	margin-top: 90px;
 }
 
+.comments_container{
+	width: 50%;
+	float: left;
+	padding-left: 18px;
+	border-right: 1px solid $grey;
+}
 
+.lessons_container{
+	width: 50%;
+	float: right;
+	padding-left: 18px;
+}
 
 
 
