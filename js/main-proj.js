@@ -2957,11 +2957,76 @@ $(window).scroll(function(e){
 
 
 
+//------------Category Dropdown----------------//
+$('.sub_list').hide();
+var cat_toggle;
+var v_toggle;
+var f_toggle;
+
+$(document).on('click', '.drop_down', function(e){
+	e.preventDefault();
+
+	
+	if($(this).html() == 'My Videos'){
+
+		if(!v_toggle){
+			$('.vid_cats').fadeOut();
+			$('.favorited_vids').fadeOut();
+			f_toggle = false;
+			cat_toggle = false;
+
+			$('.my_vids').fadeIn();
+			v_toggle = true;
+		}else{
+			$('.my_vids').fadeOut();
+			v_toggle = false;
+		}
+
+	}else if($(this).html() == 'Favorites'){
+
+		if(!f_toggle){
+			$('.my_vids').fadeOut();
+			$('.vid_cats').fadeOut();
+			cat_toggle = false;
+			v_toggle = false;
+
+			$('.favorited_vids').fadeIn();
+			f_toggle = true;
+		}else{
+			$('.favorited_vids').fadeOut();
+			f_toggle = false;
+		}
+
+	}else if($(this).html() == 'Categories'){
+
+		if(!cat_toggle){
+			$('.favorited_vids').fadeOut();
+			$('.my_vids').fadeOut();
+			f_toggle = false;
+			v_toggle = false;
+
+			$('.vid_cats').fadeIn();
+			cat_toggle = true;
+		}else{
+			$('.vid_cats').fadeOut();
+			cat_toggle = false;
+		}
+	};
+});
 
 
+$(document).on('click', '.sub_list a', function(e){
+	e.preventDefault();
 
+	$('.sub_list').fadeOut();
+	cat_toggle = false;
+	v_toggle = false;
+	f_toggle = false;
+});
 
-
+// my_vids
+// favorited_vids
+// vid_cats
 
 
 
