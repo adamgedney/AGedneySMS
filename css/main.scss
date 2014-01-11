@@ -177,7 +177,7 @@ nav{
 	background: $dark-grey;
 	opacity: .98;
 	position: absolute;
-	height: 175px;
+	height: 225px;
 	width: 200px;
 	right: 0;
 	bottom: 0;
@@ -216,7 +216,7 @@ nav{
 		border-bottom: none;
 	}
 
-	input, textarea{
+	input, textarea, select{
 		width: 184px;
 		padding: 3px;
 		font-size: .95em;
@@ -225,8 +225,18 @@ nav{
 		font-family: "Merriweather", "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
 	}
 
-	input{
+	input, select{
 		height: 30px;
+	}
+
+	select{
+		-webkit-appearance: none;
+		margin-top: 3px;
+		border-radius: 2;
+		line-height: 27px;
+		font-family: "ai_kelsol", "Helvetica Neue Light", Helvetica, Arial, sans-serif;
+		color: $grey;
+		font-size: 1.4em;
 	}
 
 	textarea{
@@ -239,10 +249,18 @@ nav{
 		background: $red;
 		font-weight: 700;
 	}
-
 }
 
+img.drop{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 15px;
+	height: 15px;
+	margin-top: 70px;
+	margin-right: 9px;
 
+}
 
 
 
