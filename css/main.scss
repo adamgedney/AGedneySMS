@@ -126,6 +126,7 @@ nav{
 
 	input[type=range]{
 		margin-top: 30px;
+		margin-left: 9px;
 		width: 175px;
 	}
 
@@ -222,6 +223,7 @@ p.desc_copy{
 
 	img{
 		margin-right: 81px;
+		border-radius: 107px;
 	}
 }
 
@@ -235,7 +237,7 @@ p.desc_copy{
 	width: 50%;
 	float: left;
 	padding-left: 18px;
-	border-right: 1px solid $grey;
+	// border-right: 1px solid $grey;
 
 	textarea{
 		-webkit-appearance: none;
@@ -250,6 +252,7 @@ p.desc_copy{
 		font-family: "Merriweather", "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
 		font-size: 1.4em;
 		margin-top: 18px;
+		outline: none;
 	}
 
 	input[type=submit]{
@@ -276,7 +279,7 @@ p.desc_copy{
 
 	img{
 		border-radius: 27px;
-		margin-bottom: -15px;
+		// margin-bottom: -15px;
 	}
 
 	h2{
@@ -293,7 +296,7 @@ p.desc_copy{
 	p{
 		width: 471px;
 		margin-top: 6px;
-		margin-left: 66px;
+		// margin-left: 66px;
 		padding-bottom: 18px;
 		border-bottom: 1px solid $grey;
 	}
@@ -304,6 +307,28 @@ p.desc_copy{
 	width: 50%;
 	float: right;
 	padding-left: 18px;
+	padding-right: 18px;
+	overflow: hidden;
+
+	img{
+		float: left;
+		margin-right: 9px;
+	}
+
+	h2{
+		display: inline-block;
+		margin-bottom: 16px;
+	}
+
+	h3{
+		display: inline;
+		margin-left: 18px;
+	}
+
+	p{
+		padding-bottom: 18px;
+		border-bottom: 1px solid $grey;
+	}
 }
 
 

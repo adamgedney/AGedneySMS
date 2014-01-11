@@ -2747,7 +2747,7 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 //@codekit-prepend "jquery-1.10.2.min.js"
 //@codekit-prepend "jquery.event.special.js"
 //@codekit-prepend "jquery.easing.min.js"
-@codekit-prepend "lightbox-2.6.min.js"
+// @codekit-prepend "lightbox-2.6.min.js"
 //@codekit-prepend "handlebars-v1.1.2.js" 
 
 
@@ -2774,6 +2774,24 @@ function init(){
 
 
 
+
+
+
+//---------------Transport functionality---------------------------//
+
+//-------------Favorites button------------//
+var toggle;
+$(document).on('click', '#fav_btn', function(e){
+	
+	if (!toggle){
+		$('#fav_btn').attr('src', 'images/star_y.png');
+		toggle = true;
+	}else{
+		$('#fav_btn').attr('src', 'images/star.png');
+		toggle = false;
+	}
+	
+});
 
 
 
