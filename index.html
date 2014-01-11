@@ -49,14 +49,51 @@
 						<img src="images/poster.jpg" alt="poster image" />
 					</div><!-- /.video-->
 
+
+
+
 					<div class="transport">
-						<div class="transport_inner">
+
+						<div class="transport_inner cf">
+
+							<div class="transport_popup">
+
+								<div class="cam_select">
+									<h2>Choose your webcam. . .</h2>
+
+									<ul>
+										<li id="input_webcam"><a href="#">Built in webcam</a></li>
+										<li id="input_usb_webcam"><a href="#">USB webcam</a></li>
+									</ul>
+								</div><!-- ./cam_select-->
+
+								<div class="mic_select">
+									<h2>Choose your mic. . .</h2>
+
+									<ul>
+										<li id="input_mic"><a href="#">Built in mic</a></li>
+										<li id="input_line_input"><a href="#">Line in</a></li>
+									</ul>
+								</div><!-- ./mic_select-->
+
+								<div class="rec_select">
+									<h2>Name your recording. . .</h2>
+
+									<form>
+										<input name="name" type="text" placeholder="Name your recording"/>
+										<textarea placeholder="Add description..."></textarea>
+										<input value="Start Recording" type="submit"/>
+									</form>
+								</div><!-- ./rec_select-->
+						
+							</div><!-- /.transport_popup -->
+
 
 							<div class="col_3">
 								<img src="images/play.png" id="play_btn" alt="play button" title="Play This Video"/>
 								<!-- <img src="images/pause.png" id="pause_btn" alt="pause button" /> -->
 
-								<input type="range" value="0"/>
+								<input id="seek-bar" type="range" value="0"/>
 							</div><!-- /.col_3-->
 
 							<div class="col_3">

@@ -76,12 +76,17 @@ p{
 	color: $dark-grey;
 }
 
-input{
--webkit-font-smoothing: antialiased;
+input, textarea{
+	border: 0;
+	border-radius: 2px;
+	font-family: "ai_kelsol", "Helvetica Neue Light", Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
 }
 
 input[type=submit]{
--webkit-appearance: none;
+	color: $white;
+	background: $blue;
+	-webkit-appearance: none;
 }
 
 a{

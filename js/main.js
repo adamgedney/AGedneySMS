@@ -33,19 +33,183 @@ function init(){
 
 //---------------Transport functionality---------------------------//
 
-//-------------Favorites button------------//
-var toggle;
-$(document).on('click', '#fav_btn', function(e){
+//-------------Play/Pause Toggle------------//
+var play_toggle;
+$(document).on('click', '#play_btn', function(e){
 	
-	if (!toggle){
-		$('#fav_btn').attr('src', 'images/star_y.png');
-		toggle = true;
+	if (!play_toggle){
+		$('#play_btn').attr('src', 'images/pause.png');
+		play_toggle = true;
 	}else{
-		$('#fav_btn').attr('src', 'images/star.png');
-		toggle = false;
+		$('#play_btn').attr('src', 'images/play.png');
+		play_toggle = false;
 	}
 	
 });
+
+
+
+//-------------Favorites button------------//
+var fav_toggle;
+$(document).on('click', '#fav_btn', function(e){
+	
+	if (!fav_toggle){
+		$('#fav_btn').attr('src', 'images/star_y.png');
+		fav_toggle = true;
+	}else{
+		$('#fav_btn').attr('src', 'images/star.png');
+		fav_toggle = false;
+	}
+	
+});
+
+
+
+//-------Show/Hide mic/cam/rec options------//
+//defaults to hide upon program load
+$('.transport_popup').hide();
+$('.rec_select').hide();
+$('.mic_select').hide();
+$('.cam_select').hide();
+
+//toggle controllers
+var cam_toggle;
+var mic_toggle;
+var rec_toggle;
+
+$(document).on('click', '#camera_btn', function(e){
+	
+	if (!cam_toggle){
+		//hides other popups
+		$('.mic_select').hide();
+		$('.rec_select').hide();
+		$('#mic_btn').css('opacity', '1');
+		rec_toggle = false;
+		mic_toggle = false;
+
+		$('#camera_btn').css('opacity', '.5');
+		$('.transport_popup').fadeIn();
+		$('.cam_select').fadeIn();
+
+		cam_toggle = true;
+	}else{
+		$('#camera_btn').css('opacity', '1');
+		$('.transport_popup').fadeOut();
+		$('.cam_select').fadeOut();
+
+		cam_toggle = false;
+	}
+	
+});
+
+
+$(document).on('click', '#mic_btn', function(e){
+	
+	if (!mic_toggle){
+		//hides other popups
+		$('.cam_select').hide();
+		$('.rec_select').hide();
+		$('#camera_btn').css('opacity', '1');
+		cam_toggle = false;
+		rec_toggle = false;
+
+		$('#mic_btn').css('opacity', '.5');
+		$('.transport_popup').fadeIn();
+		$('.mic_select').fadeIn();
+
+		mic_toggle = true;
+	}else{
+		$('#mic_btn').css('opacity', '1');
+		$('.transport_popup').fadeOut();
+		$('.mic_select').fadeOut();
+
+		mic_toggle = false;
+	}
+	
+});
+
+
+$(document).on('click', '#rec_btn', function(e){
+	
+	if (!rec_toggle){
+		//hides other popups
+		$('.mic_select').hide();
+		$('.cam_select').hide();
+		$('#rec_btn').attr('src', 'images/cancel_rec.png');
+		$('#rec_btn').attr('title', 'Cancel Recording');
+		$('#mic_btn').css('opacity', '1');
+		$('#cam_btn').css('opacity', '1');
+		cam_toggle = false;
+		mic_toggle = false;
+
+		$('.transport_popup').fadeIn();
+		$('.rec_select').fadeIn();
+
+		rec_toggle = true;
+	}else{
+		$('#rec_btn').attr('src', 'images/rec.png');
+		$('#rec_btn').attr('title', 'Record A Video');
+
+		$('.transport_popup').fadeOut();
+		$('.rec_select').fadeOut();
+
+		rec_toggle = false;
+	}
+	
+});
+
+
+//------------Seek Bar Handler----------------//
+
+
+//sets video seek-bar duration
+$('#seek-bar').attr('max', '100');
+
+//updates the video current to to seek bar current value
+$(document).on('change', '#seek-bar', function(){
+	// video.currentTime = seekBar.value;
+});
+
+
+
+
+
+
+
+
+//------------body_nav header pin----------------//
+
+$(window).scroll(function(e){
+	var y_pos = $(document).scrollTop();
+	var div_top = $('.body_nav').offset();
+
+	//remove div from document flow and pin to top of window
+	if(div_top.top <= y_pos){
+		$('.body_nav').css({
+			'position' : 'fixed',
+			'top' : '0',
+			"z-index" : '9999'
+		});
+
+		//creates a smoother transition as div leaves document flow
+		$('.page').css('marginBottom', '90px');
+	}
+
+	//reinstate div's normal position in document.
+	if(div_top.top < '749'){
+		$('.body_nav').css({
+			'position' : 'relative',
+			'top' : '0',
+			"z-index" : '9999'
+		});
+
+		$('.page').css('marginBottom', '0');
+	}
+});
+
+
+
+
 
 
 
