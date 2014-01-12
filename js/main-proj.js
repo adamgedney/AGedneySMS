@@ -2924,7 +2924,7 @@ $(document).on('change', '#seek-bar', function(){
 
 
 //------------body_nav header pin----------------//
-
+var click;
 $(window).scroll(function(e){
 	var y_pos = $(document).scrollTop();
 	var div_top = $('.body_nav').offset();
@@ -2937,6 +2937,12 @@ $(window).scroll(function(e){
 			"z-index" : '9999'
 		});
 
+		//plays a click as beader is pinned
+		if(!click){
+			var mp3 = new Audio('sounds/click.mp3').play();
+			click = true;
+		};
+
 		//creates a smoother transition as div leaves document flow
 		$('.page').css('marginBottom', '90px');
 	}
@@ -2946,9 +2952,10 @@ $(window).scroll(function(e){
 		$('.body_nav').css({
 			'position' : 'relative',
 			'top' : '0',
-			"z-index" : '9999'
+			"z-index" : '999999'
 		});
 
+		click = false;
 		$('.page').css('marginBottom', '0');
 	}
 });
