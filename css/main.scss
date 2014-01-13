@@ -633,7 +633,11 @@ p.desc_copy{
 footer{
 	height: 249px;
 	background: $white;
-	margin-top: 108px;
+	// margin-top: 108px;
+	p{
+		text-align: center;
+		padding-top: 124px;
+	}
 }
 
 
@@ -721,14 +725,16 @@ footer{
 		padding-right: 78px;
 
 		img{
+			@include col(9);
+			margin: 0 12.5% 36px; 
 			text-align: center;
-			margin-bottom: 36px;
 		}
 
 		h3{
 			font-size: 2.7em;
 			text-align: left;
 			margin-bottom: 9px;
+			text-align: center;
 		}
 
 		p{
@@ -742,7 +748,57 @@ footer{
 	padding: 108px 36px;
 	overflow: hidden;
 	background: $dark-grey;
+
+	h2{
+		color: $bg-white;
+		text-align: center;
+		margin-bottom: 72px;
+	}
+
+	p{
+		color: $bg-white;
+		// width: 300px;
+	}
+
+	ul{
+		margin: 18px 0 0 72px;
+
+		li{
+			color: $bg-white;
+			list-style-image: url(../images/check.png);
+		}
+	}
+
+	img{
+		display: block;
+		float: right;
+		@include col(5);
+	}
 }
+
+.desc_copy{
+	float: left;
+	@include col(5);
+
+	.button{
+		margin: 36px 25% 0;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Smartphones  ----------- */

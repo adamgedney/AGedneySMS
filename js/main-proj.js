@@ -3058,6 +3058,71 @@ $(document).on('click', '#login_state', function(e){
 });
 
 
+
+
+
+
+
+
+
+
+
+//--------------------On login, $.get logged in state----------------//
+$(document).on('click', '#login_fb', function(e){
+
+	$.get('templates/templates.html', function(htmlArg){
+
+		var source = $(htmlArg).find('#logged_in').html();
+		var template = Handlebars.compile(source);
+		// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
+		// var html = template(context);
+
+		$('#content').empty();
+		$('#content').append(template);
+
+		//defaults to hide upon program load
+		$('.transport_popup').hide();
+		$('.rec_select').hide();
+		$('.mic_select').hide();
+		$('.cam_select').hide();
+		$('.login_popup').hide();
+		$('.sub_list').hide();
+
+
+
+
+	});//get()
+});
+
+$(document).on('click', '#login_state', function(e){
+
+
+	if($('#login_state').html() == "Logout"){
+		$.get('templates/templates.html', function(htmlArg){
+
+			var source = $(htmlArg).find('#logged_out').html();
+			var template = Handlebars.compile(source);
+			// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
+			// var html = template(context);
+
+			$('#content').empty();
+			$('#content').append(template);
+
+			//defaults to hide upon program load
+			$('.transport_popup').hide();
+			$('.rec_select').hide();
+			$('.mic_select').hide();
+			$('.cam_select').hide();
+			$('.login_popup').hide();
+			$('.sub_list').hide();
+
+		});//get()
+	};// if
+});
+
+
+
+
 //experimental click sound on a mouseover
 // $(document).on('mouseover', 'a', function(){
 // 	new Audio('sounds/click.mp3').play();
