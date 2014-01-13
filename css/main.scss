@@ -29,6 +29,53 @@ $red: #eb2733;
 
 
 
+/*-----12 col grid experiment------*/
+
+@mixin col($num_col){
+
+	@if $num_col == 1 {
+		width: 8.33333333%;
+		}
+	@if $num_col == 2 {
+		width: 16.6666667%;
+		}
+	@if $num_col == 3 {
+		width: 25%;
+		}
+	@if  $num_col == 4 {
+		width: 33.3333333%;
+		}
+	@if $num_col == 5 {
+		width: 41.6666666%;
+		}
+	@if $num_col == 6 {
+		width: 50%;
+		}
+	@if $num_col == 7 {
+		width: 58.3333333%;
+		}
+	@if $num_col == 8 {
+		width: 66.6666666%;
+		}
+	@if $num_col == 9 {
+		width: 75%;
+		}
+	@if $num_col == 10{
+		width: 83.3333333%;
+		}
+	@if $num_col == 11 {
+		width: 91.6666666%;
+		}
+	@if $num_col == 12 {
+		width: 100%;
+	}
+}
+
+// @include col(12);
+
+
+
+
 /*------------------- Start Header -----------------*/
 
 
@@ -54,7 +101,7 @@ header{
 }
 
 nav{
-	width: 400px;
+	// width: 400px;
 	float: right;
 	padding-top: 24px;
 	font-family: "ai_kelsol", "Helvetica Neue Light", Helvetica, Arial, sans-serif;
@@ -608,26 +655,30 @@ footer{
 .fold_copy{
 	float: left;
 	margin: 126px 0 0 36px;
+	@include col(4);
 
 	h1{
 		margin-bottom: 18px;
 	}
 
 	p{
-		width: 429px;
+		// width: 429px;
+		
 	}
 }
 
 .fold_signup{
 	float: right;
-	margin: 126px 36px 0 0;
+	margin: 135px 36px 0 0;
+	@include col(4);
 
-	form{
-		width: 330px;
+	h2{
+		margin-bottom: 9px;
 	}
 
 	input{
-		width: 330px;
+		@include col(9);
+		min-width: 230px;
 		height: 45px;
 		font-size: 1.6em;
 		margin-top: 9px;
@@ -663,7 +714,8 @@ footer{
 	}
 
 	.col_3{
-		width: 33.33333%;
+		// width: 33.33333%;
+		@include col(4);
 		float: left;
 		margin-top: 72px;
 		padding-right: 78px;
@@ -686,7 +738,11 @@ footer{
 	}
 }
 
-
+.desc_page{
+	padding: 108px 36px;
+	overflow: hidden;
+	background: $dark-grey;
+}
 
 
 /* Smartphones  ----------- */
