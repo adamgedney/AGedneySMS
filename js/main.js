@@ -21,9 +21,21 @@ function init(){
 		// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
 		// var html = template(context);
 
-		$('#content').append(template);
-	});
-};
+		// $('#content').append(template);
+
+		//defaults to hide upon program load
+		$('.transport_popup').hide();
+		$('.rec_select').hide();
+		$('.mic_select').hide();
+		$('.cam_select').hide();
+		$('.login_popup').hide();
+		$('.sub_list').hide();
+
+
+
+
+	});//get()
+};//init()
 
 
 
@@ -66,11 +78,6 @@ $(document).on('click', '#fav_btn', function(e){
 
 
 //-------Show/Hide mic/cam/rec options------//
-//defaults to hide upon program load
-$('.transport_popup').hide();
-$('.rec_select').hide();
-$('.mic_select').hide();
-$('.cam_select').hide();
 
 //toggle controllers
 var cam_toggle;
@@ -218,7 +225,6 @@ $(window).scroll(function(e){
 
 
 //------------Category Dropdown----------------//
-$('.sub_list').hide();
 var cat_toggle;
 var v_toggle;
 var f_toggle;
@@ -291,7 +297,7 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 //-------------Show/hide login dropdown----------------//
-$('.login_popup').hide();
+
 var log_toggle = false;
 
 $(document).on('click', '#login_state', function(e){

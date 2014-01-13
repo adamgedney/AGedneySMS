@@ -18,9 +18,10 @@
 
 </head>
 	<body>
-		<header>
-			<a href="#"><img src="images/logo.png" alt="hackflix logo"/></a>
-			<a class="state" id="login_state" href="#">Logout</a>
+	
+	<header>
+		<a href="#"><img src="images/logo.png" alt="hackflix logo"/></a>
+			<a class="state" id="login_state" href="#">Login</a>
 
 			 <div class="login_popup">
 			 	<h2>Log in with. . .</h2>
@@ -39,314 +40,69 @@
 				</ul>
 			</nav>
 
-		</header>
+	</header>
 
+		<div class="fold">
 
+			<div class="fold_copy">
+				<h1><span class="green">Why watch hackflix videos?</span></h1>
 
+				<p><span class="bold">Hac<span class="green">k</span>flix</span> is the only thing you’ll ever need to <span class="bold">feed your brain</span> with awesome life hack video goodness. It’s totally free. What are you waiting for. <span class="bold">Sign up and start feeding.</span></p>
+			</div><!-- /.fold_copy -->
 
 
+			<div class="fold_signup">
+				<h2 class="green">Sign Up. <span class="small">It's free & easy!</span></h2>
 
+				<form>
+					<input type="text" placeholder="Username"/>
+					<input type="text" placeholder="Email"/>
+					<input type="password" placeholder="Password"/>
+					<input type="password" placeholder="Password Again"/>
+					<input type="submit" value="Submit"/>
+				</form>
+			</div><!-- /.fold_signup -->
 
+		</div><!-- /.fold -->
 
 
+		<div class="features">
+			<h2 class="green">When you sign up with hackflix you’ll get unicorns...</h2>
 
-			<div class="page">
+			<h3>(Ok. Not quite. But, close enough!)</h3>
 
-				<div class="video_wrapper">
-					
-					<div class="video">
-						<img src="images/poster.jpg" alt="poster image" />
-					</div><!-- /.video-->
+			<div class="col_3">
+				<img src="images/feature1.jpg" alt="featured image" />
+				<h3>Watch Mucho Videos</h3>
 
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla </p>
+			</div><!-- /.col_3 -->
 
+			<div class="col_3">
+				<img src="images/feature2.jpg" alt="featured image" />
+				<h3>Learn Wherever You Wish</h3>
 
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla </p>
+			</div><!-- /.col_3 -->
 
-					<div class="transport">
+			<div class="col_3">
+				<img src="images/feature3.jpg" alt="featured image" />
+				<h3>Learn At Your Own Pace</h3>
 
-						<div class="transport_inner cf">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla </p>
+			</div><!-- /.col_3 -->
 
-							<div class="transport_popup">
+		</div><!-- /.features -->
 
-								<div class="cam_select">
-									<h2>Choose your webcam. . .</h2>
 
-									<ul>
-										<li id="input_webcam"><a href="#">Built in webcam</a></li>
-										<li id="input_usb_webcam"><a href="#">USB webcam</a></li>
-									</ul>
-								</div><!-- ./cam_select-->
-
-								<div class="mic_select">
-									<h2>Choose your mic. . .</h2>
-
-									<ul>
-										<li id="input_mic"><a href="#">Built in mic</a></li>
-										<li id="input_line_input"><a href="#">Line in</a></li>
-									</ul>
-								</div><!-- ./mic_select-->
-
-								<div class="rec_select">
-									<h2>Name your lesson. . .</h2>
-
-									<form>
-										<input id="name" type="text" placeholder="Name your lesson"/>
-										<select id="category" >
-											<option>Choose Category...</option>
-											<option>DIY</option>
-											<option>Productivity</option>
-											<option>Home</option>
-											<option>Money</option>
-											<option>Electronics</option>
-											<option>Computer</option>
-											<option>Travel</option>
-											<option>Pets</option>
-											<option>Misc</option>
-											<option>Lifestyle</option>
-											
-										</select>
-										<img class="drop" src="images/drop.png" alt="drop down arrow"/>
-
-										<textarea placeholder="Add description..."></textarea>
-										<input value="Start Recording" type="submit"/>
-									</form>
-								</div><!-- ./rec_select-->
-						
-							</div><!-- /.transport_popup -->
-
-
-
-
-
-
-							<div class="col_3">
-								<img src="images/play.png" id="play_btn" alt="play button" title="Play This Video"/>
-								<!-- <img src="images/pause.png" id="pause_btn" alt="pause button" /> -->
-
-								<input id="seek-bar" type="range" value="0"/>
-							</div><!-- /.col_3-->
-
-							<div class="col_3">
-								<img src="images/star.png" id="fav_btn" alt="favorites button"  title="Favorite This Video"/>
-								<!-- <img src="images/star_y.png" id="fav_checked_btn" alt="favorites checked button" /> -->
-							</div><!-- /.col_3-->
-
-							<div class="col_3">
-								<img src="images/rec.png" id="rec_btn" alt="record button" title="Record A Video"/>
-								<img src="images/mic.png" id="mic_btn" alt="microphone button" title="Choose Your Microphone"/>
-								<img src="images/camera.png" id="camera_btn" alt="camera button" title="Choose Your Camera"/>
-							</div><!-- /.col_3-->
-
-
-						</div><!-- /.transport_inner-->
-					</div><!-- /.transport-->
-
-				</div><!-- /.video_wrapper-->
-			</div><!-- /.page-->
-		
-
-
-
-
-
-
-
-<option>DIY</option>
-											<option>Productivity</option>
-											<option>Home</option>
-											<option>Money</option>
-											<option>Electronics</option>
-											<option>Computer</option>
-											<option>Travel</option>
-											<option>Pets</option>
-											<option>Misc</option>
-											<option>Lifestyle</option>
-
-			<div class="body_nav">
-				<nav>
-					<ul>
-						<li><a class="drop_down" href="#">My Videos</a>
-							<ul class="sub_list my_vids">
-								<li><a href="#">My Video 1</a></li>
-								<li><a href="#">My Video 2</a></li>
-								<li><a href="#">My Video 3</a></li>
-								<li><a href="#">My Video 4</a></li>
-								<li><a href="#">My Video 5</a></li>
-								<li><a href="#">My Video 6</a></li>
-								<li><a href="#">My Video 7</a></li>
-								<li><a href="#">My Video 8</a></li>
-								
-							</ul>
-
-						</li><!-- /My Videos-->
-						
-						<li><a class="drop_down" href="#">Favorites</a>
-							<ul class="sub_list favorited_vids">
-								<li><a href="#">Favorited Video 1</a></li>
-								<li><a href="#">Favorited Video 2</a></li>
-								<li><a href="#">Favorited Video 3</a></li>
-								<li><a href="#">Favorited Video 4</a></li>
-								<li><a href="#">Favorited Video 5</a></li>
-								<li><a href="#">Favorited Video 6</a></li>
-								<li><a href="#">Favorited Video 7</a></li>
-								<li><a href="#">Favorited Video 8</a></li>
-								
-							</ul>
-						</li><!-- / Favorites-->
-						
-						<li><a class="drop_down" href="#">Categories</a>
-							<ul class="sub_list vid_cats">
-								<li><a href="#">DIY</a></li>
-								<li><a href="#">Productivity</a></li>
-								<li><a href="#">Home</a></li>
-								<li><a href="#">Money</a></li>
-								<li><a href="#">Electronics</a></li>
-								<li><a href="#">Computer</a></li>
-								<li><a href="#">Travel</a></li>
-								<li><a href="#">Pets</a></li>
-								<li><a href="#">Misc</a></li>
-								<li><a href="#">Lifestyle</a></li>
-							</ul>
-						</li><!-- /Categories-->
-					</ul>
-				<nav>
-			</div><!-- /.body_nav-->
-
-
-
-
-
-
-
-
-
-
-			<div class="desc">
-				<div class="title_wrapper">
-					<h1>Spaceman Lesson 1</h1>
-					<p class="time">3:16</p>
-				</div><!-- /.title_wrapper-->
-
-				<p class="desc_copy">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-
-				<div class="desc_gallery">
-					<a href="images/poster.jpg" data-lightbox="movie screenshot 1"><img src="images/shot.jpg" alt="movie screenshot 1"/></a>
-					<a href="images/poster.jpg" data-lightbox="movie screenshot 2"><img src="images/shot.jpg" alt="movie screenshot 2"/></a>
-				</div><!-- /.desc_gallery-->
-			</div><!-- /.desc-->
-
-
-
-
-
-
-
-
-
-
-			<div class="content_container">
-				<div class="comments_container">
-					<h2>Comments</h2>
-
-					<form>
-						<textarea id="new_comment" placeholder="Leave a comment..."></textarea>
-
-						<input id="submit_comment" type="submit" />
-					</form>
-
-					<!-- ****** Comments ******-->
-					<div class="comments_wrapper">
-						<div class="comment">
-							<a href="images/avatar.jpg" data-lightbox="avatar id" ><img src="images/avatar.jpg" alt="user avatar" /></a>
-							<h2>Mike Miller</h2>
-							<h3>1/9/14 12:25pm</h3>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit</p>
-						</div><!-- /.comment-->
-
-						<div class="comment">
-							<a href="images/avatar.jpg" data-lightbox="avatar id1" ><img src="images/avatar.jpg" alt="user avatar" /></a>
-							<h2>Mike Miller</h2>
-							<h3>1/9/14 12:25pm</h3>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit</p>
-						</div><!-- /.comment-->
-
-						<div class="comment">
-							<a href="images/avatar.jpg" data-lightbox="avatar id2" ><img src="images/avatar.jpg" alt="user avatar" /></a>
-							<h2>Mike Miller</h2>
-							<h3>1/9/14 12:25pm</h3>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit</p>
-						</div><!-- /.comment-->
-
-						
-					</div><!-- /.comments_wrapper-->
-
-				</div><!-- /.comments_container-->
-
-
-
-
-
-
-				<div class="lessons_container">
-					<h2>Hac<span class="green">k</span>flix Lessons</h2>
-
-						<div class="lesson">
-							<img src="images/thumb.jpg" alt="video thumbnail"/>
-							<h2>Spaceman Lesson 2</h2>
-							<h3>3:45</h3>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit</p>
-
-						</div><!-- ./lesson-->
-
-						<div class="lesson">
-							<img src="images/thumb.jpg" alt="video thumbnail"/>
-							<h2>Spaceman Lesson 3</h2>
-							<h3>3:45</h3>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit</p>
-
-						</div><!-- ./lesson-->
-
-						<div class="lesson">
-							<img src="images/thumb.jpg" alt="video thumbnail"/>
-							<h2>Spaceman Lesson 4</h2>
-							<h3>3:45</h3>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit</p>
-
-						</div><!-- ./lesson-->
-
-						<div class="lesson">
-							<img src="images/thumb.jpg" alt="video thumbnail"/>
-							<h2>Spaceman Lesson 5</h2>
-							<h3>3:45</h3>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit</p>
-
-						</div><!-- ./lesson-->
-				</div><!-- /.lessons_container-->
-				
-			</div><!-- /.content_container-->
-
-
-
-
-
-
-
-
-
-
-
-
-		<!-- <div id="content">
-		</div><!-- /#content -->
-			
 		<footer>
 		</footer>
+
+	<!-- 	<div id="content">
+
+		</div><!-- /#content --> 
+			
+		
 
 		<!-- scripts -->
 		<script src="js/jquery-1.10.2.min.js"></script>
