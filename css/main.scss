@@ -37,7 +37,7 @@ header{
 	height: 72px;
 	width: 100%;
 	background: $dark-grey;
-	padding: 0 18px;
+	padding: 0 36px;
 	overflow: hidden;
 
 	img{
@@ -355,7 +355,7 @@ ul li ul.sub_list:before{
 .desc{
 	height: 360px;
 	border-bottom: 1px solid $grey;
-	padding: 33px 18px 0;
+	padding: 33px 36px 0;
 	overflow: hidden;
 
 	h1{
@@ -416,7 +416,7 @@ p.desc_copy{
 .comments_container{
 	width: 50%;
 	float: left;
-	padding-left: 18px;
+	padding-left: 36px;
 	// border-right: 1px solid $grey;
 
 	textarea{
@@ -493,7 +493,7 @@ p.desc_copy{
 	width: 50%;
 	float: right;
 	padding-left: 18px;
-	padding-right: 18px;
+	padding-right: 36px;
 	overflow: hidden;
 }
 
@@ -535,7 +535,7 @@ p.desc_copy{
 
 footer{
 	height: 249px;
-	background: $dark-grey;
+	background: $white;
 	margin-top: 108px;
 }
 

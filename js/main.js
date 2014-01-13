@@ -206,14 +206,13 @@ $(window).scroll(function(e){
 		$('.body_nav').css({
 			'position' : 'relative',
 			'top' : '0',
-			"z-index" : '999999'
+			"z-index" : '9999'
 		});
 
 		click = false;
 		$('.page').css('marginBottom', '0');
 	}
 });
-
 
 
 
@@ -285,11 +284,21 @@ $(document).on('click', '.sub_list a', function(e){
 	f_toggle = false;
 });
 
-// my_vids
-// favorited_vids
-// vid_cats
 
 
+
+
+
+
+
+
+
+
+
+//experimental click sound on a mouseover
+$(document).on('mouseover', 'a', function(){
+	new Audio('sounds/click.mp3').play();
+});
 
 
 });// function
