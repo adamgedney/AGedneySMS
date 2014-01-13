@@ -2823,6 +2823,7 @@ var cam_toggle;
 var mic_toggle;
 var rec_toggle;
 
+//camera select popup
 $(document).on('click', '#camera_btn', function(e){
 	
 	if (!cam_toggle){
@@ -2848,7 +2849,7 @@ $(document).on('click', '#camera_btn', function(e){
 	
 });
 
-
+//mic select popup
 $(document).on('click', '#mic_btn', function(e){
 	
 	if (!mic_toggle){
@@ -2874,7 +2875,7 @@ $(document).on('click', '#mic_btn', function(e){
 	
 });
 
-
+//record popup
 $(document).on('click', '#rec_btn', function(e){
 	
 	if (!rec_toggle){
@@ -2906,8 +2907,6 @@ $(document).on('click', '#rec_btn', function(e){
 
 
 //------------Seek Bar Handler----------------//
-
-
 //sets video seek-bar duration
 $('#seek-bar').attr('max', '100');
 
@@ -2930,6 +2929,7 @@ $(window).scroll(function(e){
 	var div_top = $('.body_nav').offset();
 
 	//remove div from document flow and pin to top of window
+	//***********put in a toggle o prevent css setting on every pixel scrolled
 	if(div_top.top <= y_pos){
 		$('.body_nav').css({
 			'position' : 'fixed',
@@ -2937,7 +2937,7 @@ $(window).scroll(function(e){
 			"z-index" : '9999'
 		});
 
-		//plays a click as beader is pinned
+		//plays a click as header is pinned
 		if(!click){
 			var mp3 = new Audio('sounds/click.mp3').play();
 			click = true;
@@ -3036,15 +3036,26 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
+//-------------Show/hide login dropdown----------------//
+$('.login_popup').hide();
+var log_toggle = false;
 
+$(document).on('click', '#login_state', function(e){
 
-
+	if(!log_toggle){
+		$('.login_popup').fadeIn();
+		log_toggle = true;
+	}else{
+		$('.login_popup').fadeOut();
+		log_toggle = false;
+	}
+});
 
 
 //experimental click sound on a mouseover
-$(document).on('mouseover', 'a', function(){
-	new Audio('sounds/click.mp3').play();
-});
+// $(document).on('mouseover', 'a', function(){
+// 	new Audio('sounds/click.mp3').play();
+// });
 
 
 });// function
