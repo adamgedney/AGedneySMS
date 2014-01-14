@@ -29,7 +29,7 @@ $red: #eb2733;
 
 
 
-/*-----12 col grid experiment------*/
+/*-----12 col grid------*/
 
 @mixin col($num_col){
 
@@ -184,6 +184,7 @@ nav{
 	@include col(12);
 	// height: 750px - 72px;/*page - header = 678px*/
 	background: $black;
+	position: relative;
 }
 
 .video_wrapper{
@@ -207,6 +208,32 @@ nav{
 		max-height: 100%;
 		margin: 0 auto;
 	}
+}
+
+#seek_bar{
+	height: 18px;
+	width: 100%;
+	background: rgba(255,255,255, .8);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 9999;
+	margin: 0 0 72px 0;
+}
+
+#seek_bar_inner{
+	@include col(8);
+	margin: 0 auto;
+	height: 18px;
+	border-left: 1px solid $red;
+	border-right: 1px solid $red;
+}
+
+#seek_bar_scrub{
+	background: $red;
+	width: 18px;
+	height: 18px;
+	border-radius: 10px;
 }
 
 .transport{
@@ -484,6 +511,7 @@ p.desc_copy{
 
 	img{
 		// margin-right: 81px;
+		margin-left: 2%;
 		border-radius: 107px;
 	}
 }

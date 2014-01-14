@@ -3121,6 +3121,60 @@ $(document).on('click', '#login_state', function(e){
 });
 
 
+// $('#seek_bar').on('mousemove', function(e){
+// 	console.log("hello");
+// });
+
+// //--------Seek bar draggable----------//
+var drag = false;
+
+$(document).on('mousedown', '#seek_bar_scrub', function(e){
+	drag = true;
+
+	//required to prevent text selection on mouseout of seek_bar
+	e.preventDefault();
+	moving();
+});
+
+$(document).on('mouseup', function(e){
+	drag = false;
+});
+
+
+	function moving(){
+		$(document).on('mousemove', function(e){
+			
+			
+			if(drag){
+
+				// var x = e.pageX - $('#seek_bar_inner').offset().left;
+				$('#seek_bar_scrub').offset({left: e.pageX});
+
+
+				var seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
+				var seek_bar_right = seek_bar_left + $('#seek_bar_inner').width();
+				var seek_scrub = $('#seek_bar_scrub').offset().left;
+			
+				if(seek_scrub <= seek_bar_left){
+					$('#seek_bar_scrub').offset({left: seek_bar_left});
+				}else if(seek_scrub >= (seek_bar_right  - $('#seek_bar_scrub').width())){
+					$('#seek_bar_scrub').offset({left: (seek_bar_right - $('#seek_bar_scrub').width())});
+				};
+
+				
+				
+			};
+		});	
+	};
+
+
+
+
+
+
+
+
+
 
 
 //experimental click sound on a mouseover
