@@ -82,7 +82,7 @@ $red: #eb2733;
 
 header{
 	height: 72px;
-	width: 100%;
+	@include col(12);
 	background: $dark-grey;
 	padding: 0 36px;
 	overflow: hidden;
@@ -181,20 +181,20 @@ nav{
 /*------------------- End Header / Start Page -----------------*/
 
 .page{
-	width: 100%;
-	height: 750px - 72px;/*page - header = 678px*/
+	@include col(12);
+	// height: 750px - 72px;/*page - header = 678px*/
 	background: $black;
 }
 
 .video_wrapper{
-	width: 100%;
-	height: 678px;
+	@include col(12);
+	height: 678px; //required to hold absolute positioned elements below video
 	position: relative;
 }
 
 .video{
-	width: 100%;
-	height: 678px - 72px;/*page - transport = 606px*/
+	@include col(12);
+	// height: 678px - 72px;/*page - transport = 606px*/
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -202,14 +202,15 @@ nav{
 
 	img{
 		display: block;
-		width: 960px;
+		// width: 960px;
+		@include col(9);
 		max-height: 100%;
 		margin: 0 auto;
 	}
 }
 
 .transport{
-	width: 100%;
+	@include col(12);
 	height: 72px;
 	background: $dark-grey;
 	position: absolute;
@@ -218,7 +219,8 @@ nav{
 }
 
 .transport_inner{
-	width: 920px;
+	// width: 920px;
+	@include col(8);
 	margin: 0 auto;
 	// overflow: hidden;
 	position: relative;
@@ -242,7 +244,7 @@ nav{
 
 	//transport 3 col
 	.col_3{
-		width: 33.333333%;
+		@include col(4);
 		float: left;
 	}
 }
@@ -372,7 +374,7 @@ img.drop{
 
 
 .body_nav{
-	width: 100%;
+	@include col(12);
 	height: 90px;
 	background: $white;
 	opacity: .9;
@@ -380,6 +382,7 @@ img.drop{
 	nav{
 		float: none;
 		width: 504px;
+		// @include col(5);
 		margin: 0 auto;
 		padding-top: 32px;
 		ul{
@@ -450,9 +453,9 @@ ul li ul.sub_list:before{
 
 
 .desc{
-	height: 360px;
+	// height: 360px;
 	border-bottom: 1px solid $grey;
-	padding: 33px 36px 0;
+	padding: 72px 36px 0;
 	overflow: hidden;
 
 	h1{
@@ -466,18 +469,21 @@ p.time{
 }
 
 p.desc_copy{
-	width: 501px;
+	// width: 501px;
+	@include col(5);
 	margin-top: 15px;
 	float: left;
+	padding-bottom: 72px;
 }
 
 .desc_gallery{
 	float: right;
 	margin-right: 18px;
 	margin-top: 18px;
+	@include col(6);
 
 	img{
-		margin-right: 81px;
+		// margin-right: 81px;
 		border-radius: 107px;
 	}
 }
@@ -511,7 +517,7 @@ p.desc_copy{
 
 
 .comments_container{
-	width: 50%;
+	@include col(6);
 	float: left;
 	padding-left: 36px;
 	// border-right: 1px solid $grey;
@@ -522,7 +528,8 @@ p.desc_copy{
 		border: 0;
 		border-radius: 2px;
 		border: 1px solid $grey;
-		width: 471px;
+		// width: 471px;
+		@include col(9);
 		height: 96px;
 		padding: 9px;
 		display: block;
@@ -533,7 +540,8 @@ p.desc_copy{
 	}
 
 	input[type=submit]{
-		width: 471px;
+		// width: 471px;
+		@include col(9);
 		height: 45px;
 		margin-top: 9px;
 		margin-bottom: 36px;
@@ -566,7 +574,8 @@ p.desc_copy{
 	}
 
 	p{
-		width: 471px;
+		// width: 471px;
+		@include col(9);
 		margin-top: 6px;
 		// margin-left: 66px;
 		padding-bottom: 18px;
@@ -587,7 +596,7 @@ p.desc_copy{
 
 
 .lessons_container{
-	width: 50%;
+	@include col(6);
 	float: right;
 	padding-left: 18px;
 	padding-right: 36px;
