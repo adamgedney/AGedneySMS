@@ -375,11 +375,9 @@ $(document).on('click', '#login_state', function(e){
 });
 
 
-// $('#seek_bar').on('mousemove', function(e){
-// 	console.log("hello");
-// });
 
-// //--------Seek bar draggable----------//
+
+//--------Seek bar draggable----------//
 var drag = false;
 
 $(document).on('mousedown', '#seek_bar_scrub', function(e){
