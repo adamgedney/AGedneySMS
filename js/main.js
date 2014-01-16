@@ -17,6 +17,11 @@ var play_toggle = false;
 var playing = false;
 
 
+
+
+
+
+
 var connected = function(success, error){
 	
 	if(success){
@@ -40,8 +45,7 @@ var seekTime = function(time){
 
 };// seekTime()
 
-
-//--------Seek bar draggable----------// ************if video has played, scrub is broken********
+// ************if video has played, scrub is broken********
 
 //mousedown to start drag
 $(document).on('mousedown', '#seek_bar_scrub', function(e){
@@ -89,8 +93,15 @@ function moving(){
 
 
 
+
+
+
 var flashReady = function(){
 	
+	//sets init volume to 70
+	$('#vol_bar').val(100);
+	
+
 	//-------------Play/Pause Toggle------------//
 	$(document).on('click', '#play_btn', function(e){
 		
@@ -98,6 +109,7 @@ var flashReady = function(){
 		{
 			flash.connect('rtmp://localhost/SMSServer/');
 			playing = true;
+
 		}else{
 			flash.playPause();
 		}
@@ -117,6 +129,15 @@ var flashReady = function(){
 };// flashReady()
 
 
+//set volume
+$(document).on('change', function(e){
+	var vol = $('#vol_bar').val() / 100;
+		vol = vol.toFixed(1);
+
+
+
+		flash.setVolume(vol);
+});
 
 
 
@@ -129,10 +150,6 @@ var flashReady = function(){
 
 
 
-
-
-//namespace
-// $(function(){
 
 
 //---------------------------Templating--------------------------//
@@ -186,6 +203,7 @@ $(document).on('click', '#login_fb', function(e){
 		$('.cam_select').hide();
 		$('.login_popup').hide();
 		$('.sub_list').hide();
+
 
 		seek_bar_width = $('#seek_bar_inner').width();
 		seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
