@@ -98,50 +98,6 @@ header{
 		padding: 24px 18px 0 21px;
 		font-family: "ai_kelsol", "Helvetica Neue Light", Helvetica, Arial, sans-serif;
 	}
-
-	.transport{
-		position: static;
-		display: inline;
-		// @include col(3);
-		width: 276px;
-		padding: 0 18px;
-		float: right;
-		overflow: hidden;
-		border-right: 1px solid $black;
-		border-left: 1px solid $black;
-
-		.transport_inner{
-			width: 100%;
-		}
-
-		.header_thumb{
-			display: inline-block;
-			width: 40px;
-			height: 40px;
-			overflow: hidden;
-			float: left;
-			margin: 14px 9px 0 0;
-
-			img{
-				min-height: 40px;
-				min-width: 100%;
-			}
-		}
-
-		#play_btn, #pause_btn{
-			display: inline-block;
-			margin-top: 18px;
-			width: 20px;
-			height: 31px;
-			float: left;
-		}
-
-		#vol_bar{
-			float: left;
-			margin: 29px 0 0 9px;
-			width: 150px;
-		}
-	}
 }
 
 nav{

@@ -5,8 +5,134 @@
 //@codekit-prepend "handlebars-v1.1.2.js" 
 
 
+var duration;
+var seek_time;
+var seek_bar_left;
+var seek_bar_right;
+var seek_scrub;
+var seek_bar_width;
+var xPos;
+var drag = false;
+var play_toggle = false;
+var playing = false;
+
+
+var connected = function(success, error){
+	
+	if(success){
+		flash.startPlaying('cowscowscows.flv');
+	}
+};
+
+
+var getDuration = function(dur){
+	duration = dur;
+};
+
+
+var seekTime = function(time){
+	seek_time = time;
+
+	xPos = (seek_time / duration) * seek_bar_right;
+
+	// scrub position update
+	$('#seek_bar_scrub').offset({left: seek_bar_left + xPos});
+
+};// seekTime()
+
+
+//--------Seek bar draggable----------// ************if video has played, scrub is broken********
+
+//mousedown to start drag
+$(document).on('mousedown', '#seek_bar_scrub', function(e){
+	drag = true;
+
+	//required to prevent text selection on mouseout of seek_bar
+	e.preventDefault();
+	moving();
+});
+
+//mouseup to stop drag
+$(document).on('mouseup', function(e){
+	drag = false;
+});
+
+//drag and setTime
+function moving(){
+	$(document).on('mousemove', function(e){
+		var set_time = ((e.pageX - seek_bar_left) / seek_bar_width) * duration;
+
+		if(drag){
+
+			$('#seek_bar_scrub').offset({left: e.pageX});
+
+			//sets scrub time
+			flash.setTime(set_time);
+
+			//creates a border 
+			if(seek_scrub <= seek_bar_left){
+				$('#seek_bar_scrub').offset({left: seek_bar_left});
+
+			}else if(seek_scrub >= (seek_bar_right  - $('#seek_bar_scrub').width())){
+				$('#seek_bar_scrub').offset({left: (seek_bar_right - $('#seek_bar_scrub').width())});
+
+			};
+		};
+	});
+};
+
+
+
+
+
+
+
+
+
+var flashReady = function(){
+	
+	//-------------Play/Pause Toggle------------//
+	$(document).on('click', '#play_btn', function(e){
+		
+		if(!playing)
+		{
+			flash.connect('rtmp://localhost/SMSServer/');
+			playing = true;
+		}else{
+			flash.playPause();
+		}
+
+
+		if (!play_toggle){
+			
+			$('#play_btn').attr('src', 'images/pause.png');
+			play_toggle = true;
+			
+		}else{
+			$('#play_btn').attr('src', 'images/play.png');
+			play_toggle = false;
+		}
+		
+	});
+};// flashReady()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //namespace
-$(function(){
+// $(function(){
 
 
 //---------------------------Templating--------------------------//
@@ -34,30 +160,84 @@ function init(){
 
 
 
+
 	});//get()
 };//init()
 
 
 
+//--------------------On login, $.get logged in state----------------//
+$(document).on('click', '#login_fb', function(e){
+
+	$.get('templates/templates.html', function(htmlArg){
+
+		var source = $(htmlArg).find('#logged_in').html();
+		var template = Handlebars.compile(source);
+		// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
+		// var html = template(context);
+
+		$('#content').empty();
+		$('#content').append(template);
+
+		//defaults to hide upon program load
+		$('.transport_popup').hide();
+		$('.rec_select').hide();
+		$('.mic_select').hide();
+		$('.cam_select').hide();
+		$('.login_popup').hide();
+		$('.sub_list').hide();
+
+		seek_bar_width = $('#seek_bar_inner').width();
+		seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
+		seek_bar_right = seek_bar_left + seek_bar_width;
+		seek_scrub = $('#seek_bar_scrub').offset().left;
 
 
+		swfobject.embedSWF(
+	    "swf/higley_wigley.swf", "flashContent",
+	    "100%", "100%",
+	    swfVersionStr, xiSwfUrlStr,
+	    flashvars, params, attributes);
+		// JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+		swfobject.createCSS("#flashContent", "display:block;text-align:left;");
 
 
-//---------------Transport functionality---------------------------//
-
-//-------------Play/Pause Toggle------------//
-var play_toggle;
-$(document).on('click', '#play_btn', function(e){
-	
-	if (!play_toggle){
-		$('#play_btn').attr('src', 'images/pause.png');
-		play_toggle = true;
-	}else{
-		$('#play_btn').attr('src', 'images/play.png');
-		play_toggle = false;
-	}
-	
+	});//get()
 });
+
+$(document).on('click', '#login_state', function(e){
+
+
+	if($('#login_state').html() == "Logout"){
+		$.get('templates/templates.html', function(htmlArg){
+
+			var source = $(htmlArg).find('#logged_out').html();
+			var template = Handlebars.compile(source);
+			// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
+			// var html = template(context);
+
+			$('#content').empty();
+			$('#content').append(template);
+
+			//defaults to hide upon program load
+			$('.transport_popup').hide();
+			$('.rec_select').hide();
+			$('.mic_select').hide();
+			$('.cam_select').hide();
+			$('.login_popup').hide();
+			$('.sub_list').hide();
+
+		});//get()
+	};// if
+});
+
+
+
+
+
+
+
+
 
 
 
@@ -167,14 +347,6 @@ $(document).on('click', '#rec_btn', function(e){
 });
 
 
-//------------Seek Bar Handler----------------//
-//sets video seek-bar duration
-$('#seek-bar').attr('max', '100');
-
-//updates the video current to to seek bar current value
-$(document).on('change', '#seek-bar', function(){
-	// video.currentTime = seekBar.value;
-});
 
 
 
@@ -321,103 +493,6 @@ $(document).on('click', '#login_state', function(e){
 
 
 
-//--------------------On login, $.get logged in state----------------//
-$(document).on('click', '#login_fb', function(e){
-
-	$.get('templates/templates.html', function(htmlArg){
-
-		var source = $(htmlArg).find('#logged_in').html();
-		var template = Handlebars.compile(source);
-		// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
-		// var html = template(context);
-
-		$('#content').empty();
-		$('#content').append(template);
-
-		//defaults to hide upon program load
-		$('.transport_popup').hide();
-		$('.rec_select').hide();
-		$('.mic_select').hide();
-		$('.cam_select').hide();
-		$('.login_popup').hide();
-		$('.sub_list').hide();
-
-
-
-
-	});//get()
-});
-
-$(document).on('click', '#login_state', function(e){
-
-
-	if($('#login_state').html() == "Logout"){
-		$.get('templates/templates.html', function(htmlArg){
-
-			var source = $(htmlArg).find('#logged_out').html();
-			var template = Handlebars.compile(source);
-			// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
-			// var html = template(context);
-
-			$('#content').empty();
-			$('#content').append(template);
-
-			//defaults to hide upon program load
-			$('.transport_popup').hide();
-			$('.rec_select').hide();
-			$('.mic_select').hide();
-			$('.cam_select').hide();
-			$('.login_popup').hide();
-			$('.sub_list').hide();
-
-		});//get()
-	};// if
-});
-
-
-
-
-//--------Seek bar draggable----------//
-var drag = false;
-
-$(document).on('mousedown', '#seek_bar_scrub', function(e){
-	drag = true;
-
-	//required to prevent text selection on mouseout of seek_bar
-	e.preventDefault();
-	moving();
-});
-
-$(document).on('mouseup', function(e){
-	drag = false;
-});
-
-
-	function moving(){
-		$(document).on('mousemove', function(e){
-			
-			
-			if(drag){
-
-				// var x = e.pageX - $('#seek_bar_inner').offset().left;
-				$('#seek_bar_scrub').offset({left: e.pageX});
-
-
-				var seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
-				var seek_bar_right = seek_bar_left + $('#seek_bar_inner').width();
-				var seek_scrub = $('#seek_bar_scrub').offset().left;
-			
-				if(seek_scrub <= seek_bar_left){
-					$('#seek_bar_scrub').offset({left: seek_bar_left});
-				}else if(seek_scrub >= (seek_bar_right  - $('#seek_bar_scrub').width())){
-					$('#seek_bar_scrub').offset({left: (seek_bar_right - $('#seek_bar_scrub').width())});
-				};
-
-				
-				
-			};
-		});	
-	};
 
 
 
@@ -429,10 +504,14 @@ $(document).on('mouseup', function(e){
 
 
 
-//experimental click sound on a mouseover
-// $(document).on('mouseover', 'a', function(){
-// 	new Audio('sounds/click.mp3').play();
-// });
 
 
-});// function
+
+
+
+
+
+// });// function
+
+
+
