@@ -2676,8 +2676,10 @@ var seekTime = function(time){
 
 	xPos = (seek_time / duration) * seek_bar_right;
 
-	// scrub position update
-	$('#seek_bar_scrub').offset({left: seek_bar_left + xPos});
+	// scrub position update only when not dragging
+	if(!drag){
+		$('#seek_bar_scrub').offset({left: seek_bar_left + xPos});
+	}
 
 };// seekTime()
 
