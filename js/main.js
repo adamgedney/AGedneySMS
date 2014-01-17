@@ -12,9 +12,13 @@ var seek_bar_right;
 var seek_scrub;
 var seek_bar_width;
 var xPos;
+var name;
+var mic_index;
+var cam_index;
 var drag = false;
 var play_toggle = false;
 var playing = false;
+var recording = false;
 
 
 
@@ -25,7 +29,11 @@ var playing = false;
 var connected = function(success, error){
 	
 	if(success){
-		flash.startPlaying('cowscowscows.flv');
+		if(recording){
+			flash.startRecording(name,cam_index,mic_index);
+		}else{
+			flash.startPlaying('cowscowscows.flv');
+		};
 	}
 };
 
@@ -275,6 +283,16 @@ $(document).on('click', '#fav_btn', function(e){
 
 
 
+
+
+
+
+
+
+
+
+
+
 //-------Show/Hide mic/cam/rec options------//
 
 //toggle controllers
@@ -298,6 +316,16 @@ $(document).on('click', '#camera_btn', function(e){
 		$('.cam_select').fadeIn();
 
 		cam_toggle = true;
+
+		//get and loop through attached cameras
+		var cam_list = flash.getCameras();
+		$('.cameras').empty();
+
+		for(var i=0; i<cam_list.length; i++){
+			var li = '<li><a id="' + i + '" href="#">' +  cam_list[i].substr(0, 18) + '</a></li>';
+			$('.cameras').append(li);
+		}
+		
 	}else{
 		$('#camera_btn').css('opacity', '1');
 		$('.transport_popup').fadeOut();
@@ -307,6 +335,18 @@ $(document).on('click', '#camera_btn', function(e){
 	}
 	
 });
+
+//select and store camera choice
+$(document).on('click', '.cameras a', function(e){
+	e.preventDefault();
+	cam_index = $(this).attr("id");
+
+	console.log(cam_index);
+});
+
+
+
+
 
 //mic select popup
 $(document).on('click', '#mic_btn', function(e){
@@ -324,6 +364,17 @@ $(document).on('click', '#mic_btn', function(e){
 		$('.mic_select').fadeIn();
 
 		mic_toggle = true;
+
+		//get and loop through attached cameras
+		var mic_list = flash.getMicrophones();
+		$('.mics').empty();
+
+		for(var j=0; j<mic_list.length; j++){
+			var li = '<li><a id="' + j + '" href="#">' +  mic_list[j].substr(0, 20) + '</a></li>';
+			$('.mics').append(li);
+		}
+
+
 	}else{
 		$('#mic_btn').css('opacity', '1');
 		$('.transport_popup').fadeOut();
@@ -333,6 +384,19 @@ $(document).on('click', '#mic_btn', function(e){
 	}
 	
 });
+
+//select and store microphone choice
+$(document).on('click', '.mics a', function(e){
+	e.preventDefault();
+	mic_index = $(this).attr("id");
+
+	console.log(mic_index);
+});
+
+
+
+
+
 
 //record popup
 $(document).on('click', '#rec_btn', function(e){
@@ -364,7 +428,19 @@ $(document).on('click', '#rec_btn', function(e){
 	
 });
 
+//start recording
+$(document).on('click', '#start_recording', function(e){
+	e.preventDefault();
 
+	name = $('#name').val();
+	var category = $('#category').val();
+	var desc = $('#file_desc').val();
+
+	flash.connect('rtmp://localhost/SMSServer/');
+	recording = true;
+});
+
+	
 
 
 

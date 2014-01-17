@@ -191,6 +191,11 @@ nav{
 	@include col(12);
 	height: 678px; //required to hold absolute positioned elements below video
 	position: relative;
+
+	object#higley_wigley{
+		position: relative;
+		left: -8%;
+	}
 }
 
 .video{

@@ -19,10 +19,11 @@ var xiSwfUrlStr = "swf/playerProductInstall.swf";
 var flashvars = {};
 var params = {};
 params.quality = "high";
-params.bgcolor = "#ffffff";
+params.bgcolor = "#000000";
 params.allowscriptaccess = "always";
 params.allowfullscreen = "true";
 var attributes = {};
 attributes.id = "higley_wigley";
 attributes.name = "higley_wigley";
-attributes.align = "middle";
+attributes.align = "center";
+
