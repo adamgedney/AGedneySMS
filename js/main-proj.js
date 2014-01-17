@@ -2632,8 +2632,8 @@ var seek_scrub;
 var seek_bar_width;
 var xPos;
 var name;
-var mic_index;
-var cam_index;
+var mic_index = 0;//0 default mic
+var cam_index = 0;//0 default cam
 var drag = false;
 var play_toggle = false;
 var playing = false;
@@ -2828,6 +2828,7 @@ $(document).on('click', '#login_fb', function(e){
 		$('.rec_select').hide();
 		$('.mic_select').hide();
 		$('.cam_select').hide();
+		$('.stop_rec_modal').hide();
 		$('.login_popup').hide();
 		$('.sub_list').hide();
 
@@ -3057,9 +3058,26 @@ $(document).on('click', '#start_recording', function(e){
 
 	flash.connect('rtmp://localhost/SMSServer/');
 	recording = true;
+
+	// $('.poster').fadeOut();
+	$('.stop_rec_modal').fadeIn();
+
+	//resets the record modal
+	$('#rec_btn').attr('src', 'images/rec.png');
+	$('#rec_btn').attr('title', 'Record A Video');
+	$('.transport_popup').fadeOut();
+	$('.rec_select').fadeOut();
+	rec_toggle = false;
 });
 
-	
+//stop recording button
+$(document).on('click', '#stop_rec', function(e){
+	flash.stopRecording();
+	$('.stop_rec_modal').hide();
+
+	// $('.poster').fadeIn();
+
+});	
 
 
 
