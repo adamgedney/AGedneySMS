@@ -2623,7 +2623,7 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 // @codekit-prepend "lightbox-2.6.min.js"
 //@codekit-prepend "handlebars-v1.1.2.js" 
 
-
+//Globals
 var duration;
 var seek_time;
 var seek_bar_left;
@@ -2632,12 +2632,17 @@ var seek_scrub;
 var seek_bar_width;
 var xPos;
 var name;
+var cam_toggle;
+var mic_toggle;
+var rec_toggle;
+var fav_toggle;
 var mic_index = 0;//0 default mic
 var cam_index = 0;//0 default cam
 var drag = false;
 var play_toggle = false;
 var playing = false;
 var recording = false;
+var connection_open = false;
 
 
 
@@ -2646,13 +2651,17 @@ var recording = false;
 
 
 var connected = function(success, error){
-	
+	 console.log(success, error);
 	if(success){
+		connection_open = true;
+
 		if(recording){
 			flash.startRecording(name,cam_index,mic_index);
 		}else{
 			flash.startPlaying('cowscowscows.flv');
 		};
+	}else{
+		connection_open = false;
 	}
 };
 
@@ -2673,7 +2682,10 @@ var seekTime = function(time){
 };// seekTime()
 
 // ************if video has played, scrub is broken********
+//scrub can leave its perimeter. broken
 
+
+//========================Seek Bar=========================//
 //mousedown to start drag
 $(document).on('mousedown', '#seek_bar_scrub', function(e){
 	drag = true;
@@ -2732,16 +2744,20 @@ var flashReady = function(){
 	//-------------Play/Pause Toggle------------//
 	$(document).on('click', '#play_btn', function(e){
 		
-		if(!playing)
-		{
+		//handles connect or play/pause toggle
+		if(!playing){
+			flash.stopRecording();
 			flash.connect('rtmp://localhost/SMSServer/');
+
 			playing = true;
+			recording = false;
 
 		}else{
 			flash.playPause();
 		}
 
 
+		//handles image toggle
 		if (!play_toggle){
 			
 			$('#play_btn').attr('src', 'images/pause.png');
@@ -2758,15 +2774,184 @@ var flashReady = function(){
 
 //set volume
 $(document).on('change', function(e){
+	
 	var vol = $('#vol_bar').val() / 100;
 		vol = vol.toFixed(1);
-
-
 
 		flash.setVolume(vol);
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+//-------Show/Hide mic/cam/rec options------//
+
+//camera select popup
+$(document).on('click', '#camera_btn', function(e){
+	
+	if (!cam_toggle){
+		//hides other popups
+		$('.mic_select').hide();
+		$('.rec_select').hide();
+		$('#mic_btn').css('opacity', '1');
+		rec_toggle = false;
+		mic_toggle = false;
+
+		$('#camera_btn').css('opacity', '.5');
+		$('.transport_popup').fadeIn();
+		$('.cam_select').fadeIn();
+
+		cam_toggle = true;
+
+		//get and loop through attached cameras
+		var cam_list = flash.getCameras();
+		$('.cameras').empty();
+
+		for(var i=0; i<cam_list.length; i++){
+			var li = '<li><a id="' + i + '" href="#">' +  cam_list[i].substr(0, 18) + '</a></li>';
+			$('.cameras').append(li);
+		}
+		
+	}else{
+		$('#camera_btn').css('opacity', '1');
+		$('.transport_popup').fadeOut();
+		$('.cam_select').fadeOut();
+
+		cam_toggle = false;
+	}
+	
+});
+
+//select and store camera choice
+$(document).on('click', '.cameras a', function(e){
+	e.preventDefault();
+	cam_index = $(this).attr("id");
+});
+
+
+
+
+
+//mic select popup
+$(document).on('click', '#mic_btn', function(e){
+	
+	if (!mic_toggle){
+		//hides other popups
+		$('.cam_select').hide();
+		$('.rec_select').hide();
+		$('#camera_btn').css('opacity', '1');
+		cam_toggle = false;
+		rec_toggle = false;
+
+		$('#mic_btn').css('opacity', '.5');
+		$('.transport_popup').fadeIn();
+		$('.mic_select').fadeIn();
+
+		mic_toggle = true;
+
+		//get and loop through attached cameras
+		var mic_list = flash.getMicrophones();
+		$('.mics').empty();
+
+		for(var j=0; j<mic_list.length; j++){
+			var li = '<li><a id="' + j + '" href="#">' +  mic_list[j].substr(0, 20) + '</a></li>';
+			$('.mics').append(li);
+		}
+
+
+	}else{
+		$('#mic_btn').css('opacity', '1');
+		$('.transport_popup').fadeOut();
+		$('.mic_select').fadeOut();
+
+		mic_toggle = false;
+	}
+	
+});
+
+//select and store microphone choice
+$(document).on('click', '.mics a', function(e){
+	e.preventDefault();
+	mic_index = $(this).attr("id");
+});
+
+
+
+
+
+
+//record popup
+$(document).on('click', '#rec_btn', function(e){
+	
+	if (!rec_toggle){
+		//hides other popups
+		$('.mic_select').hide();
+		$('.cam_select').hide();
+		$('#rec_btn').attr('src', 'images/cancel_rec.png');
+		$('#rec_btn').attr('title', 'Cancel Recording');
+		$('#mic_btn').css('opacity', '1');
+		$('#cam_btn').css('opacity', '1');
+		cam_toggle = false;
+		mic_toggle = false;
+
+		$('.transport_popup').fadeIn();
+		$('.rec_select').fadeIn();
+
+		rec_toggle = true;
+	}else{
+		$('#rec_btn').attr('src', 'images/rec.png');
+		$('#rec_btn').attr('title', 'Record A Video');
+
+		$('.transport_popup').fadeOut();
+		$('.rec_select').fadeOut();
+
+		rec_toggle = false;
+	}
+	
+});
+
+//start recording
+$(document).on('click', '#start_recording', function(e){
+	e.preventDefault();
+
+	name = $('#name').val();
+	var category = $('#category').val();
+	var desc = $('#file_desc').val();
+
+	//opens connection
+	flash.stopPlaying();
+	flash.connect('rtmp://localhost/SMSServer/');
+	recording = true;
+
+	// $('.poster').fadeOut();
+	$('.stop_rec_modal').fadeIn();
+
+	//resets the record modal
+	$('#rec_btn').attr('src', 'images/rec.png');
+	$('#rec_btn').attr('title', 'Record A Video');
+	$('.transport_popup').fadeOut();
+	$('.rec_select').fadeOut();
+	rec_toggle = false;
+});
+
+//stop recording button
+$(document).on('click', '#stop_rec', function(e){
+	flash.stopRecording();
+	$('.stop_rec_modal').hide();
+
+	// $('.poster').fadeIn();
+
+});	
 
 
 
@@ -2851,8 +3036,8 @@ $(document).on('click', '#login_fb', function(e){
 	});//get()
 });
 
+//Controls logout
 $(document).on('click', '#login_state', function(e){
-
 
 	if($('#login_state').html() == "Logout"){
 		$.get('templates/templates.html', function(htmlArg){
@@ -2888,7 +3073,6 @@ $(document).on('click', '#login_state', function(e){
 
 
 //-------------Favorites button------------//
-var fav_toggle;
 $(document).on('click', '#fav_btn', function(e){
 	
 	if (!fav_toggle){
@@ -2905,179 +3089,6 @@ $(document).on('click', '#fav_btn', function(e){
 
 
 
-
-
-
-
-
-
-
-
-//-------Show/Hide mic/cam/rec options------//
-
-//toggle controllers
-var cam_toggle;
-var mic_toggle;
-var rec_toggle;
-
-//camera select popup
-$(document).on('click', '#camera_btn', function(e){
-	
-	if (!cam_toggle){
-		//hides other popups
-		$('.mic_select').hide();
-		$('.rec_select').hide();
-		$('#mic_btn').css('opacity', '1');
-		rec_toggle = false;
-		mic_toggle = false;
-
-		$('#camera_btn').css('opacity', '.5');
-		$('.transport_popup').fadeIn();
-		$('.cam_select').fadeIn();
-
-		cam_toggle = true;
-
-		//get and loop through attached cameras
-		var cam_list = flash.getCameras();
-		$('.cameras').empty();
-
-		for(var i=0; i<cam_list.length; i++){
-			var li = '<li><a id="' + i + '" href="#">' +  cam_list[i].substr(0, 18) + '</a></li>';
-			$('.cameras').append(li);
-		}
-		
-	}else{
-		$('#camera_btn').css('opacity', '1');
-		$('.transport_popup').fadeOut();
-		$('.cam_select').fadeOut();
-
-		cam_toggle = false;
-	}
-	
-});
-
-//select and store camera choice
-$(document).on('click', '.cameras a', function(e){
-	e.preventDefault();
-	cam_index = $(this).attr("id");
-
-	console.log(cam_index);
-});
-
-
-
-
-
-//mic select popup
-$(document).on('click', '#mic_btn', function(e){
-	
-	if (!mic_toggle){
-		//hides other popups
-		$('.cam_select').hide();
-		$('.rec_select').hide();
-		$('#camera_btn').css('opacity', '1');
-		cam_toggle = false;
-		rec_toggle = false;
-
-		$('#mic_btn').css('opacity', '.5');
-		$('.transport_popup').fadeIn();
-		$('.mic_select').fadeIn();
-
-		mic_toggle = true;
-
-		//get and loop through attached cameras
-		var mic_list = flash.getMicrophones();
-		$('.mics').empty();
-
-		for(var j=0; j<mic_list.length; j++){
-			var li = '<li><a id="' + j + '" href="#">' +  mic_list[j].substr(0, 20) + '</a></li>';
-			$('.mics').append(li);
-		}
-
-
-	}else{
-		$('#mic_btn').css('opacity', '1');
-		$('.transport_popup').fadeOut();
-		$('.mic_select').fadeOut();
-
-		mic_toggle = false;
-	}
-	
-});
-
-//select and store microphone choice
-$(document).on('click', '.mics a', function(e){
-	e.preventDefault();
-	mic_index = $(this).attr("id");
-
-	console.log(mic_index);
-});
-
-
-
-
-
-
-//record popup
-$(document).on('click', '#rec_btn', function(e){
-	
-	if (!rec_toggle){
-		//hides other popups
-		$('.mic_select').hide();
-		$('.cam_select').hide();
-		$('#rec_btn').attr('src', 'images/cancel_rec.png');
-		$('#rec_btn').attr('title', 'Cancel Recording');
-		$('#mic_btn').css('opacity', '1');
-		$('#cam_btn').css('opacity', '1');
-		cam_toggle = false;
-		mic_toggle = false;
-
-		$('.transport_popup').fadeIn();
-		$('.rec_select').fadeIn();
-
-		rec_toggle = true;
-	}else{
-		$('#rec_btn').attr('src', 'images/rec.png');
-		$('#rec_btn').attr('title', 'Record A Video');
-
-		$('.transport_popup').fadeOut();
-		$('.rec_select').fadeOut();
-
-		rec_toggle = false;
-	}
-	
-});
-
-//start recording
-$(document).on('click', '#start_recording', function(e){
-	e.preventDefault();
-
-	name = $('#name').val();
-	var category = $('#category').val();
-	var desc = $('#file_desc').val();
-
-	flash.connect('rtmp://localhost/SMSServer/');
-	recording = true;
-
-	// $('.poster').fadeOut();
-	$('.stop_rec_modal').fadeIn();
-
-	//resets the record modal
-	$('#rec_btn').attr('src', 'images/rec.png');
-	$('#rec_btn').attr('title', 'Record A Video');
-	$('.transport_popup').fadeOut();
-	$('.rec_select').fadeOut();
-	rec_toggle = false;
-});
-
-//stop recording button
-$(document).on('click', '#stop_rec', function(e){
-	flash.stopRecording();
-	$('.stop_rec_modal').hide();
-
-	// $('.poster').fadeIn();
-
-});	
 
 
 

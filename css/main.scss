@@ -297,8 +297,7 @@ nav{
 
 	input[type=range]{
 		margin-top: 30px;
-		margin-left: 9px;
-		width: 175px;
+		width: 125px;
 	}
 
 	//transport 3 col
@@ -316,6 +315,12 @@ nav{
 #fav_btn, #fav_checked_btn{
 	width: 30px;
 	margin: 15px 50%;
+}
+
+.speaker{
+	width: 27px;
+	height: 27px;
+	margin: 0 0 15px 18px;
 }
 
 #rec_btn, #camera_btn, #mic_btn{
