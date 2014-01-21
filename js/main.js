@@ -91,7 +91,7 @@ $(document).on('mouseup', function(e){
 function moving(){
 	$(document).on('mousemove', function(e){
 		var set_time = ((e.pageX - seek_bar_left) / seek_bar_width) * duration;
-console.log(drag, "drag biggest balls");
+
 		if(drag){
 
 			$('#seek_bar_scrub').offset({left: e.pageX});
@@ -100,17 +100,16 @@ console.log(drag, "drag biggest balls");
 			flash.setTime(set_time);
 
 			//creates a border 
-			if(seek_scrub <= seek_bar_left){
+			if(seek_scrub < seek_bar_left){
 				$('#seek_bar_scrub').offset({left: seek_bar_left});
 
-			}else if(seek_scrub >= (seek_bar_right  - $('#seek_bar_scrub').width())){
+			}else if(seek_scrub > (seek_bar_right  - $('#seek_bar_scrub').width())){
 				$('#seek_bar_scrub').offset({left: (seek_bar_right - $('#seek_bar_scrub').width())});
 
 			};
 		};
 	});
 };
-
 
 
 
