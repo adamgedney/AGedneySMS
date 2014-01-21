@@ -245,12 +245,13 @@ nav{
 #seek_bar{
 	height: 18px;
 	width: 100%;
-	background: rgba(255,255,255, .8);
+	// background: rgba(255,255,255, .8);
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	z-index: 9999;
 	margin: 0 0 72px 0;
+	border-bottom: 1px solid $bg-white;
 }
 
 #seek_bar_inner{
@@ -263,9 +264,10 @@ nav{
 
 #seek_bar_scrub{
 	background: $red;
-	width: 18px;
-	height: 18px;
+	width: 15px;
+	height: 15px;
 	border-radius: 10px;
+	margin-top: 9px;
 }
 
 .transport{
@@ -673,7 +675,9 @@ p.desc_copy{
 
 	img{
 		float: left;
-		margin-right: 9px;
+		margin: 9px 9px 0 0;
+		width: 200px;
+		height: 130px;
 	}
 
 	h2{

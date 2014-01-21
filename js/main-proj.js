@@ -2644,9 +2644,13 @@ var playing = false;
 var recording = false;
 var connection_open = false;
 
+var db = new Firebase('https://adamgedney.firebaseio.com/');
 
 
 
+// var globalError = function(message){
+// 	console.log(message, "error mess");
+// }
 
 
 
@@ -2658,7 +2662,7 @@ var connected = function(success, error){
 		if(recording){
 			flash.startRecording(name,cam_index,mic_index);
 		}else{
-			flash.startPlaying('cowscowscows.flv');
+			flash.startPlaying('hhhhh.flv');
 		};
 	}else{
 		connection_open = false;
@@ -2683,7 +2687,7 @@ var seekTime = function(time){
 
 };// seekTime()
 
-// ************if video has played, scrub is broken********
+
 //scrub can leave its perimeter. broken
 
 
@@ -2706,7 +2710,7 @@ $(document).on('mouseup', function(e){
 function moving(){
 	$(document).on('mousemove', function(e){
 		var set_time = ((e.pageX - seek_bar_left) / seek_bar_width) * duration;
-
+console.log(drag, "drag biggest balls");
 		if(drag){
 
 			$('#seek_bar_scrub').offset({left: e.pageX});
@@ -2934,6 +2938,7 @@ $(document).on('click', '#start_recording', function(e){
 	flash.stopPlaying();
 	flash.connect('rtmp://localhost/SMSServer/');
 	recording = true;
+	playing = false;
 
 	// $('.poster').fadeOut();
 	$('.stop_rec_modal').fadeIn();
@@ -2950,6 +2955,7 @@ $(document).on('click', '#start_recording', function(e){
 $(document).on('click', '#stop_rec', function(e){
 	flash.stopRecording();
 	$('.stop_rec_modal').hide();
+
 
 	// $('.poster').fadeIn();
 
@@ -3228,6 +3234,52 @@ $(document).on('click', '#login_state', function(e){
 });
 
 
+
+
+
+
+
+
+
+
+//---------------------------Comment submit---------------------------//
+// var messages = db.child('/messages');
+// $(document).on('click', '#submit_comment', function(e){
+// 	e.preventDefault();
+// 	var com = $('#new_comment').val();
+// 	var usr = "Mike Miller";
+
+// 	messages.push({user: usr, comment: com});
+
+// 	$('#new_comment').val('');
+
+// });
+
+// db.limit(10).on('child_added', function (snapshot) {
+//     // console.log(snapshot.val().comment, "snapshot");
+  
+//   });
+
+
+
+//======================== Firebase ================================//
+
+
+// myDataRef.set('User ' + name + ' says ' + text);
+// myDataRef.set({name: name, text: text});
+// myDataRef.push({name: name, text: text});
+// myDataRef.on('child_added', function(snapshot) {
+  //We'll fill this in later.
+  //var message = snapshot.val();
+//displayChatMessage(message.name, message.text);
+// });
+
+// event types
+//Value
+//Child Added
+//Child Changed
+//Child Removed
+//Child Moved
 
 
 
