@@ -25,8 +25,12 @@ var playing = false;
 var recording = false;
 var connection_open = false;
 
+//firebase globals
 var db = new Firebase('https://adamgedney.firebaseio.com/');
-
+var messages = db.child('/messages');
+var comments_array = [];
+var user_array = [];
+var created_array = [];
 
 
 // var globalError = function(message){
@@ -420,6 +424,8 @@ $(document).on('click', '#login_fb', function(e){
 		// JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
 		swfobject.createCSS("#flashContent", "display:block;text-align:left;");
 
+		//populates comments field
+		get_comments();
 
 	});//get()
 });
@@ -618,29 +624,116 @@ $(document).on('click', '#login_state', function(e){
 
 
 
+	function get_datetime(){
+		// datetime on 12 hr clock
+		var d = new Date();
+		var	day = d.getDay();
+		var month = d.getMonth() + 1;
+		var year = d.getFullYear();
+		var hour = d.getHours();
+		var minutes = d.getMinutes();
+		var time;
+		if(hour > 12){
+			hour = hour - 12;
+			time = hour + ":" + minutes;
+
+			time += "pm";
+		}
+
+		return month + "/" + day + "/" + year + " " + time;
+	};
 
 
-
-
+// $('.comments_wrapper').empty();
 //---------------------------Comment submit---------------------------//
-// var messages = db.child('/messages');
-// $(document).on('click', '#submit_comment', function(e){
-// 	e.preventDefault();
-// 	var com = $('#new_comment').val();
-// 	var usr = "Mike Miller";
 
-// 	messages.push({user: usr, comment: com});
-
-// 	$('#new_comment').val('');
-
-// });
-
-// db.limit(10).on('child_added', function (snapshot) {
-//     // console.log(snapshot.val().comment, "snapshot");
-  
-//   });
+	//comment form handling
+	$(document).on('click', '#submit_comment', function(e){
+		e.preventDefault();
+		var com = $('#new_comment').val();
+		var usr = "Mike Miller";
+		var d = get_datetime();
+		var t = "hhhhh";
 
 
+		//pushes comment into messages object
+		messages.push({user: usr, comment: com, created: d, title: t});
+
+		//resets comment form
+		$('#new_comment').val('');
+
+		//gets comments and appends to comment list
+		$('.comments_wrapper').empty();
+		get_comments();
+
+	});
+
+
+	//retrieve comments when there is a new one
+	//store in the comments_array
+	function get_comments(){
+		messages.on('child_added', function (snapshot) {
+		    
+		    var comments = snapshot.val().comment;
+		    var users = snapshot.val().user;
+		    var created = snapshot.val().created;
+
+		  	//empties arrays
+		  	comments_array = [];
+		  	user_array = [];
+		  	created_array = [];
+		  	
+
+		  	//pushes result strings into arrays
+		  	comments_array.push(comments);
+		  	user_array.push(users);
+		  	created_array.push(created);
+
+		  
+
+		  	//renderer
+		  	for (var k=0;k<comments_array.length;k++){
+			  	
+			  	var s = '<div class="comment">';
+			  		s += '<a href="images/avatar.jpg" data-lightbox="avatar id" ><img src="images/avatar.jpg" alt="user avatar" /></a>';
+			  		s += '<h2>' + user_array[k] + '</h2>';
+			  		s += '<h3>' + created_array[k] + '</h3>';
+			  		s += '<p>' + comments_array[k] + '</p>';
+					s += '</div><!-- /.comment-->';					
+										
+			  	$('.comments_wrapper').append(s);
+			};// for
+		  });
+	}; //get_comments()
+
+
+
+
+
+
+
+
+	// 	function get_comment(){
+	// 	messages.on('child_added', function (snapshot) {
+		    
+	// 	    var comments = snapshot.val().comment;
+	// 	    var users = snapshot.val().user;
+	// 	    var created = snapshot.val().created;
+	// 	    var last = comments_array.length - 1;
+	// 	  	// console.log($('.comments_wrapper').html(), "html");
+
+	// 	  	//renderer
+
+	// 		  	var s = '<div class="comment">';
+	// 		  		s += '<a href="images/avatar.jpg" data-lightbox="avatar id" ><img src="images/avatar.jpg" alt="user avatar" /></a>';
+	// 		  		s += '<h2>' + user_array[last] + '</h2>';
+	// 		  		s += '<h3>' + created_array[last] + '</h3>';
+	// 		  		s += '<p>' + comments_array[last] + '</p>';
+	// 				s += '</div><!-- /.comment-->';					
+										
+	// 		  	$('.comments_wrapper').append(s);
+	// 	  });
+	// }; //get_comments()
 
 //======================== Firebase ================================//
 
