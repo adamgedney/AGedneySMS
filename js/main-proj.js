@@ -2650,6 +2650,7 @@ var user_avatar_array = [];
 var comments_array = [];
 var user_array = [];
 var created_array = [];
+var video_array = [];
 
 //firebase globals
 var db = new Firebase('https://adamgedney.firebaseio.com/');
@@ -2929,8 +2930,9 @@ $(document).on('click', '#login_tw', function(e){
 			// JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
 			swfobject.createCSS("#flashContent", "display:block;text-align:left;");
 
-			//populates comments field
+			//populates comments & video fields
 			get_comments();
+			get_videos();
 
 		});//get()
 	};//login()
@@ -2994,7 +2996,7 @@ $(document).on('click', '#login_state', function(e){
 
 
 
-//-------Show/Hide mic/cam/rec options------//
+//====================Show/Hide mic/cam/rec options=====================//
 
 //camera select popup
 $(document).on('click', '#camera_btn', function(e){
@@ -3129,7 +3131,7 @@ $(document).on('click', '#start_recording', function(e){
 	e.preventDefault();
 
 	name = $('#name').val();
-	var category = $('#category').val();
+	var cat = $('#category').val();
 	var desc = $('#file_desc').val();
 
 	//opens connection
@@ -3147,6 +3149,11 @@ $(document).on('click', '#start_recording', function(e){
 	$('.transport_popup').fadeOut();
 	$('.rec_select').fadeOut();
 	rec_toggle = false;
+
+	//adds video to database
+	video_obj.push({video: name, category: cat, description: desc, author: current_user, created_date: get_datetime()});
+
+
 });
 
 
@@ -3337,9 +3344,9 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
-//video_obj.push({video: t, comments: {user: usr, comment: com, created: d}});
-// push video object
-//---------------------------Comment submit---------------------------//
+
+
+//============================Click Handlers==============================//
 
 	//set comments
 	$(document).on('click', '#submit_comment', function(e){
@@ -3363,9 +3370,35 @@ $(document).on('click', '.sub_list a', function(e){
 	});
 
 
+
+
+
+
+	//select lesson from list & set current video to this value
+	$(document).on('click', '.lesson', function(e){
+
+		var this_title = $(this).find('h2').html();
+		current_video = this_title;
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+//============================Getters/Setters==============================//
+
 	//retrieve comments when there is a new one
 	//store in the comments_array
 	function get_comments(){
+
 		comments_obj.on('child_added', function (snapshot) {
 		    
 		    var comments = snapshot.val().comment;
@@ -3387,20 +3420,8 @@ $(document).on('click', '.sub_list a', function(e){
 		  	user_avatar_array.push(avatar);
 
 		  
-
-		  	//renderer
-		  	for (var k=0;k<comments_array.length;k++){
-			  	
-			  	var s = '<div class="comment">';
-			  		s += '<a href="' + user_avatar_array[k] + '" data-lightbox="avatar id" ><img src="' + user_avatar_array[k] + '" alt="user avatar" /></a>';
-			  		s += '<h2>' + user_array[k] + '</h2>';
-			  		s += '<h3>' + created_array[k] + '</h3>';
-			  		s += '<p>' + comments_array[k] + '</p>';
-					s += '</div><!-- /.comment-->';					
-										
-			  	$('.comments_wrapper').append(s);
-			};// for
-		  });
+		  	render_comments();
+		});
 	}; //get_comments()
 
 
@@ -3410,27 +3431,18 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
-	// 	function get_comment(){
-	// 	messages.on('child_added', function (snapshot) {
-		    
-	// 	    var comments = snapshot.val().comment;
-	// 	    var users = snapshot.val().user;
-	// 	    var created = snapshot.val().created;
-	// 	    var last = comments_array.length - 1;
-	// 	  	// console.log($('.comments_wrapper').html(), "html");
 
-	// 	  	//renderer
+	
+	function get_videos(){
 
-	// 		  	var s = '<div class="comment">';
-	// 		  		s += '<a href="images/avatar.jpg" data-lightbox="avatar id" ><img src="images/avatar.jpg" alt="user avatar" /></a>';
-	// 		  		s += '<h2>' + user_array[last] + '</h2>';
-	// 		  		s += '<h3>' + created_array[last] + '</h3>';
-	// 		  		s += '<p>' + comments_array[last] + '</p>';
-	// 				s += '</div><!-- /.comment-->';					
-										
-	// 		  	$('.comments_wrapper').append(s);
-	// 	  });
-	// }; //get_comments()
+		video_obj.on('child_added', function (snapshot) {
+		  
+		   	video_array = [];
+		    video_array.push(snapshot.val());
+		  	
+		  	render_videos();
+		});
+	}; //get_comments()
 
 
 
@@ -3443,26 +3455,23 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
-//======================== Firebase ================================//
+//============================Renderers==============================//
+	function render_videos(){
+		
+	  	for (var l=0;l<video_array.length;l++){
+		  	
+		  	var s = '<div class="lesson">';
+				s += '<img src="images/thumb.jpg" alt="video thumbnail"/>';
+				s += '<h2>' + video_array[l].video + '</h2>';
+				s += '<h3>' + video_array[l].created_date + '</h3>';
+				s += '<p>' + video_array[l].description + '</p>';
+				s += '</div><!-- ./lesson-->';			
+									
+		  	$('.lessons_container').append(s);
+		};// for
+	};
 
-
-// myDataRef.set('User ' + name + ' says ' + text);
-// myDataRef.set({name: name, text: text});
-// myDataRef.push({name: name, text: text});
-// myDataRef.on('child_added', function(snapshot) {
-  //We'll fill this in later.
-  //var message = snapshot.val();
-//displayChatMessage(message.name, message.text);
-// });
-
-// event types
-//Value
-//Child Added
-//Child Changed
-//Child Removed
-//Child Moved
-
-
+	
 
 
 
@@ -3472,6 +3481,20 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
+	function render_comments(){
+		
+	  	for (var k=0;k<comments_array.length;k++){
+		  	
+		  	var s = '<div class="comment">';
+		  		s += '<a href="' + user_avatar_array[k] + '" data-lightbox="avatar id" ><img src="' + user_avatar_array[k] + '" alt="user avatar" /></a>';
+		  		s += '<h2>' + user_array[k] + '</h2>';
+		  		s += '<h3>' + created_array[k] + '</h3>';
+		  		s += '<p>' + comments_array[k] + '</p>';
+				s += '</div><!-- /.comment-->';					
+									
+		  	$('.comments_wrapper').append(s);
+		};// for
+	};
 
 
 
@@ -3488,7 +3511,28 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
-// });// function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
