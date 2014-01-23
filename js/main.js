@@ -24,9 +24,12 @@ var play_toggle = false;
 var playing = false;
 var recording = false;
 var connection_open = false;
+var current_video = "hhhhh.flv";
+var current_user;
 
 //firebase globals
 var db = new Firebase('https://adamgedney.firebaseio.com/');
+var video_obj = db.child('/videos');
 var comments_obj = db.child('/comments');
 var comments_array = [];
 var user_array = [];
@@ -47,7 +50,7 @@ var connected = function(success, error){
 		if(recording){
 			flash.startRecording(name,cam_index,mic_index);
 		}else{
-			flash.startPlaying('hhhhh.flv');
+			flash.startPlaying(current_video);
 		};
 	}else{
 		connection_open = false;
@@ -73,7 +76,18 @@ var seekTime = function(time){
 };// seekTime()
 
 
-//scrub can leave its perimeter. broken
+//auth callback
+var auth = new FirebaseSimpleLogin(db, function(error, user){
+	// console.log(user.displayName, user.profileUrl, "github user");
+
+	if(!error){
+		current_user = user.displayName;
+
+		login();
+	}
+	
+
+});
 
 
 //========================Seek Bar=========================//
@@ -388,7 +402,12 @@ function init(){
 
 
 //--------------------On login, $.get logged in state----------------//
-$(document).on('click', '#login_fb', function(e){
+$(document).on('click', '#login_gh', function(e){
+
+	//github authentication
+	auth.login('github');
+
+
 
 	$.get('templates/templates.html', function(htmlArg){
 
@@ -645,6 +664,10 @@ $(document).on('click', '#login_state', function(e){
 
 
 // $('.comments_wrapper').empty();
+
+
+//video_obj.push({video: t, comments: {user: usr, comment: com, created: d}});
+// push video object
 //---------------------------Comment submit---------------------------//
 
 	//set comments
@@ -653,7 +676,7 @@ $(document).on('click', '#login_state', function(e){
 		var com = $('#new_comment').val();
 		var usr = "Mike Miller";
 		var d = get_datetime();
-		var t = "hhhhh";
+		var t = current_video;
 
 
 		//pushes comment into messages object
@@ -734,6 +757,17 @@ $(document).on('click', '#login_state', function(e){
 	// 		  	$('.comments_wrapper').append(s);
 	// 	  });
 	// }; //get_comments()
+
+
+
+
+
+
+
+
+
+
+
 
 //======================== Firebase ================================//
 
