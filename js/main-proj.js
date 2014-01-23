@@ -2645,14 +2645,17 @@ var recording = false;
 var connection_open = false;
 var current_video = "hhhhh.flv";
 var current_user;
+var user_avatar;
+var user_avatar_array = [];
+var comments_array = [];
+var user_array = [];
+var created_array = [];
 
 //firebase globals
 var db = new Firebase('https://adamgedney.firebaseio.com/');
 var video_obj = db.child('/videos');
 var comments_obj = db.child('/comments');
-var comments_array = [];
-var user_array = [];
-var created_array = [];
+
 
 
 // var globalError = function(message){
@@ -2715,8 +2718,13 @@ var seekTime = function(time){
 var auth = new FirebaseSimpleLogin(db, function(error, user){
 
 	if(!error){
-		if(user.provider == "github" || user.provider == "twitter"){
+		if(user.provider == "github"){
 			current_user = user.displayName;
+			user_avatar = user.avatar_url;
+			login();
+		}else if(user.provider == "twitter"){
+			current_user = user.displayName;
+			user_avatar = user.profile_image_url;
 			login();
 		}
 	}
@@ -3326,7 +3334,7 @@ $(document).on('click', '.sub_list a', function(e){
 	};
 
 
-// $('.comments_wrapper').empty();
+
 
 
 //video_obj.push({video: t, comments: {user: usr, comment: com, created: d}});
@@ -3343,7 +3351,7 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 		//pushes comment into messages object
-		comments_obj.push({user: usr, comment: com, created: d, title: t});
+		comments_obj.push({user: usr, avatar: user_avatar, comment: com, created: d, title: t});
 
 		//resets comment form
 		$('#new_comment').val('');
@@ -3363,17 +3371,20 @@ $(document).on('click', '.sub_list a', function(e){
 		    var comments = snapshot.val().comment;
 		    var users = snapshot.val().user;
 		    var created = snapshot.val().created;
+		    var avatar = snapshot.val().avatar;
 
 		  	//empties arrays
 		  	comments_array = [];
 		  	user_array = [];
 		  	created_array = [];
+		  	user_avatar_array = [];
 		  	
 
 		  	//pushes result strings into arrays
 		  	comments_array.push(comments);
 		  	user_array.push(users);
 		  	created_array.push(created);
+		  	user_avatar_array.push(avatar);
 
 		  
 
@@ -3381,7 +3392,7 @@ $(document).on('click', '.sub_list a', function(e){
 		  	for (var k=0;k<comments_array.length;k++){
 			  	
 			  	var s = '<div class="comment">';
-			  		s += '<a href="images/avatar.jpg" data-lightbox="avatar id" ><img src="images/avatar.jpg" alt="user avatar" /></a>';
+			  		s += '<a href="' + user_avatar_array[k] + '" data-lightbox="avatar id" ><img src="' + user_avatar_array[k] + '" alt="user avatar" /></a>';
 			  		s += '<h2>' + user_array[k] + '</h2>';
 			  		s += '<h3>' + created_array[k] + '</h3>';
 			  		s += '<p>' + comments_array[k] + '</p>';
