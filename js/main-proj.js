@@ -2646,7 +2646,7 @@ var connection_open = false;
 
 //firebase globals
 var db = new Firebase('https://adamgedney.firebaseio.com/');
-var messages = db.child('/messages');
+var comments_obj = db.child('/comments');
 var comments_array = [];
 var user_array = [];
 var created_array = [];
@@ -3266,7 +3266,7 @@ $(document).on('click', '#login_state', function(e){
 // $('.comments_wrapper').empty();
 //---------------------------Comment submit---------------------------//
 
-	//comment form handling
+	//set comments
 	$(document).on('click', '#submit_comment', function(e){
 		e.preventDefault();
 		var com = $('#new_comment').val();
@@ -3276,7 +3276,7 @@ $(document).on('click', '#login_state', function(e){
 
 
 		//pushes comment into messages object
-		messages.push({user: usr, comment: com, created: d, title: t});
+		comments_obj.push({user: usr, comment: com, created: d, title: t});
 
 		//resets comment form
 		$('#new_comment').val('');
@@ -3291,7 +3291,7 @@ $(document).on('click', '#login_state', function(e){
 	//retrieve comments when there is a new one
 	//store in the comments_array
 	function get_comments(){
-		messages.on('child_added', function (snapshot) {
+		comments_obj.on('child_added', function (snapshot) {
 		    
 		    var comments = snapshot.val().comment;
 		    var users = snapshot.val().user;
