@@ -2661,6 +2661,10 @@ var created_array = [];
 
 
 
+
+
+
+//==========================================callbacks=================================//
 var connected = function(success, error){
 	 console.log(success, error);
 	if(success){
@@ -2677,9 +2681,17 @@ var connected = function(success, error){
 };
 
 
+
+
+
+
 var getDuration = function(dur){
 	duration = dur;
 };
+
+
+
+
 
 
 var seekTime = function(time){
@@ -2695,21 +2707,36 @@ var seekTime = function(time){
 };// seekTime()
 
 
+
+
+
+
 //auth callback
 var auth = new FirebaseSimpleLogin(db, function(error, user){
-	// console.log(user.displayName, user.profileUrl, "github user");
 
 	if(!error){
-		current_user = user.displayName;
-
-		login();
+		if(user.provider == "github" || user.provider == "twitter"){
+			current_user = user.displayName;
+			login();
+		}
 	}
-	
-
 });
 
 
-//========================Seek Bar=========================//
+
+
+
+
+
+//
+//end callbacks
+//
+
+
+
+
+
+//========================Seek Bar drag/drop functionality=========================//
 //mousedown to start drag
 $(document).on('mousedown', '#seek_bar_scrub', function(e){
 	drag = true;
@@ -2757,7 +2784,7 @@ function moving(){
 
 
 
-
+//flash ready serves as document ready
 var flashReady = function(){
 	
 	//sets init volume to 70
@@ -2795,7 +2822,7 @@ var flashReady = function(){
 };// flashReady()
 
 
-//set volume
+//set volume init
 $(document).on('change', function(e){
 	
 	var vol = $('#vol_bar').val() / 100;
@@ -2809,6 +2836,148 @@ $(document).on('change', function(e){
 
 
 
+
+
+
+
+
+
+
+//---------------------------Templating--------------------------//
+init();
+
+function init(){
+
+	$.get('templates/templates.html', function(htmlArg){
+
+		var source = $(htmlArg).find('#logged_out').html();
+		var template = Handlebars.compile(source);
+		// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
+		// var html = template(context);
+
+		$('#content').append(template);
+
+		//defaults to hide upon program load
+		$('.transport_popup').hide();
+		$('.rec_select').hide();
+		$('.mic_select').hide();
+		$('.cam_select').hide();
+		$('.login_popup').hide();
+		$('.sub_list').hide();
+
+	});//get()
+};//init()
+
+
+
+//--------------------On login, $.get logged in state----------------//
+$(document).on('click', '#login_gh', function(e){
+
+	//github authentication
+	auth.login('github');
+});
+
+$(document).on('click', '#login_tw', function(e){
+
+	//github authentication
+	auth.login('twitter');
+});
+
+
+
+
+	function login(){
+		$.get('templates/templates.html', function(htmlArg){
+
+			var source = $(htmlArg).find('#logged_in').html();
+			var template = Handlebars.compile(source);
+			// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
+			// var html = template(context);
+
+			$('#content').empty();
+			$('#content').append(template);
+
+			//defaults to hide upon program load
+			$('.transport_popup').hide();
+			$('.rec_select').hide();
+			$('.mic_select').hide();
+			$('.cam_select').hide();
+			$('.stop_rec_modal').hide();
+			$('.login_popup').hide();
+			$('.sub_list').hide();
+
+
+			seek_bar_width = $('#seek_bar_inner').width();
+			seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
+			seek_bar_right = seek_bar_left + seek_bar_width;
+			seek_scrub = $('#seek_bar_scrub').offset().left;
+
+
+			swfobject.embedSWF(
+		    "swf/higley_wigley.swf", "flashContent",
+		    "100%", "100%",
+		    swfVersionStr, xiSwfUrlStr,
+		    flashvars, params, attributes);
+			// JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+			swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+
+			//populates comments field
+			get_comments();
+
+		});//get()
+	};//login()
+
+
+
+
+
+
+//Controls logout
+$(document).on('click', '#login_state', function(e){
+
+	if($('#login_state').html() == "Logout"){
+
+		//logs out facebook or twitter
+		auth.logout();
+
+		$.get('templates/templates.html', function(htmlArg){
+
+			var source = $(htmlArg).find('#logged_out').html();
+			var template = Handlebars.compile(source);
+			// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
+			// var html = template(context);
+
+			$('#content').empty();
+			$('#content').append(template);
+
+			//defaults to hide upon program load
+			$('.transport_popup').hide();
+			$('.rec_select').hide();
+			$('.mic_select').hide();
+			$('.cam_select').hide();
+			$('.login_popup').hide();
+			$('.sub_list').hide();
+
+		});//get()
+	};// if
+});
+
+
+
+//-------------Show/hide login dropdown----------------//
+
+var log_toggle = false;
+
+$(document).on('click', '#login_state', function(e){
+
+	if(!log_toggle){
+		$('.login_popup').fadeIn();
+		log_toggle = true;
+	}else{
+		$('.login_popup').fadeOut();
+		log_toggle = false;
+	}
+});
 
 
 
@@ -2913,6 +3082,8 @@ $(document).on('click', '.mics a', function(e){
 
 
 
+
+
 //record popup
 $(document).on('click', '#rec_btn', function(e){
 	
@@ -2943,6 +3114,8 @@ $(document).on('click', '#rec_btn', function(e){
 	
 });
 
+
+
 //start recording
 $(document).on('click', '#start_recording', function(e){
 	e.preventDefault();
@@ -2968,6 +3141,8 @@ $(document).on('click', '#start_recording', function(e){
 	rec_toggle = false;
 });
 
+
+
 //stop recording button
 $(document).on('click', '#stop_rec', function(e){
 	flash.stopRecording();
@@ -2977,122 +3152,6 @@ $(document).on('click', '#stop_rec', function(e){
 	// $('.poster').fadeIn();
 
 });	
-
-
-
-
-
-
-
-
-
-
-
-
-//---------------------------Templating--------------------------//
-init();
-
-function init(){
-
-	$.get('templates/templates.html', function(htmlArg){
-
-		var source = $(htmlArg).find('#logged_out').html();
-		var template = Handlebars.compile(source);
-		// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
-		// var html = template(context);
-
-		$('#content').append(template);
-
-		//defaults to hide upon program load
-		$('.transport_popup').hide();
-		$('.rec_select').hide();
-		$('.mic_select').hide();
-		$('.cam_select').hide();
-		$('.login_popup').hide();
-		$('.sub_list').hide();
-
-
-
-
-
-	});//get()
-};//init()
-
-
-
-//--------------------On login, $.get logged in state----------------//
-$(document).on('click', '#login_gh', function(e){
-
-	//github authentication
-	auth.login('github');
-
-
-
-	$.get('templates/templates.html', function(htmlArg){
-
-		var source = $(htmlArg).find('#logged_in').html();
-		var template = Handlebars.compile(source);
-		// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
-		// var html = template(context);
-
-		$('#content').empty();
-		$('#content').append(template);
-
-		//defaults to hide upon program load
-		$('.transport_popup').hide();
-		$('.rec_select').hide();
-		$('.mic_select').hide();
-		$('.cam_select').hide();
-		$('.stop_rec_modal').hide();
-		$('.login_popup').hide();
-		$('.sub_list').hide();
-
-
-		seek_bar_width = $('#seek_bar_inner').width();
-		seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
-		seek_bar_right = seek_bar_left + seek_bar_width;
-		seek_scrub = $('#seek_bar_scrub').offset().left;
-
-
-		swfobject.embedSWF(
-	    "swf/higley_wigley.swf", "flashContent",
-	    "100%", "100%",
-	    swfVersionStr, xiSwfUrlStr,
-	    flashvars, params, attributes);
-		// JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
-		swfobject.createCSS("#flashContent", "display:block;text-align:left;");
-
-		//populates comments field
-		get_comments();
-
-	});//get()
-});
-
-//Controls logout
-$(document).on('click', '#login_state', function(e){
-
-	if($('#login_state').html() == "Logout"){
-		$.get('templates/templates.html', function(htmlArg){
-
-			var source = $(htmlArg).find('#logged_out').html();
-			var template = Handlebars.compile(source);
-			// var context = {id: posts._id, title:posts.title, created: posts.created, author: posts.author, category: posts.category, text: posts.text}
-			// var html = template(context);
-
-			$('#content').empty();
-			$('#content').append(template);
-
-			//defaults to hide upon program load
-			$('.transport_popup').hide();
-			$('.rec_select').hide();
-			$('.mic_select').hide();
-			$('.cam_select').hide();
-			$('.login_popup').hide();
-			$('.sub_list').hide();
-
-		});//get()
-	};// if
-});
 
 
 
@@ -3242,21 +3301,6 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
-//-------------Show/hide login dropdown----------------//
-
-var log_toggle = false;
-
-$(document).on('click', '#login_state', function(e){
-
-	if(!log_toggle){
-		$('.login_popup').fadeIn();
-		log_toggle = true;
-	}else{
-		$('.login_popup').fadeOut();
-		log_toggle = false;
-	}
-});
-
 
 
 
@@ -3293,7 +3337,7 @@ $(document).on('click', '#login_state', function(e){
 	$(document).on('click', '#submit_comment', function(e){
 		e.preventDefault();
 		var com = $('#new_comment').val();
-		var usr = "Mike Miller";
+		var usr = current_user;
 		var d = get_datetime();
 		var t = current_video;
 
