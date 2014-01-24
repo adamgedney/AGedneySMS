@@ -24,7 +24,7 @@ var play_toggle = false;
 var playing = false;
 var recording = false;
 var connection_open = false;
-var current_video = "hhhhh.flv";
+var current_video;
 var current_user;
 var user_avatar;
 var user_avatar_array = [];
@@ -127,43 +127,43 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 
 
 //========================Seek Bar drag/drop functionality=========================//
-//mousedown to start drag
-$(document).on('mousedown', '#seek_bar_scrub', function(e){
-	drag = true;
+	//mousedown to start drag
+	$(document).on('mousedown', '#seek_bar_scrub', function(e){
+		drag = true;
 
-	//required to prevent text selection on mouseout of seek_bar
-	e.preventDefault();
-	moving();
-});
+		//required to prevent text selection on mouseout of seek_bar
+		e.preventDefault();
+		moving();
+	});
 
-//mouseup to stop drag
-$(document).on('mouseup', function(e){
-	drag = false;
-});
+	//mouseup to stop drag
+	$(document).on('mouseup', function(e){
+		drag = false;
+	});
 
-//drag and setTime
-function moving(){
-	$(document).on('mousemove', function(e){
-		var set_time = ((e.pageX - seek_bar_left) / seek_bar_width) * duration;
+	//drag and setTime
+	function moving(){
+		$(document).on('mousemove', function(e){
+			var set_time = ((e.pageX - seek_bar_left) / seek_bar_width) * duration;
 
-		if(drag){
+			if(drag){
 
-			$('#seek_bar_scrub').offset({left: e.pageX});
+				$('#seek_bar_scrub').offset({left: e.pageX});
 
-			//sets scrub time
-			flash.setTime(set_time);
+				//sets scrub time
+				flash.setTime(set_time);
 
-			//creates a border 
-			if(seek_scrub < seek_bar_left){
-				$('#seek_bar_scrub').offset({left: seek_bar_left});
+				//creates a border 
+				if(seek_scrub < seek_bar_left){
+					$('#seek_bar_scrub').offset({left: seek_bar_left});
 
-			}else if(seek_scrub > (seek_bar_right  - $('#seek_bar_scrub').width())){
-				$('#seek_bar_scrub').offset({left: (seek_bar_right - $('#seek_bar_scrub').width())});
+				}else if(seek_scrub > (seek_bar_right  - $('#seek_bar_scrub').width())){
+					$('#seek_bar_scrub').offset({left: (seek_bar_right - $('#seek_bar_scrub').width())});
 
+				};
 			};
-		};
-	});
-};
+		});
+	};
 
 
 
@@ -174,55 +174,57 @@ function moving(){
 
 
 
-//flash ready serves as document ready
-var flashReady = function(){
-	
-	//sets init volume to 70
-	$('#vol_bar').val(100);
-	
-
-	//-------------Play/Pause Toggle------------//
-	$(document).on('click', '#play_btn', function(e){
+	//flash ready serves as document ready
+	var flashReady = function(){
 		
+		//sets init volume to 70
+		$('#vol_bar').val(100);
+		
+
+
+		
+		$(document).on('click', '#play_btn', function(e){
+			
+			play_video();
+		});
+	};// flashReady()
+
+
+	//set volume init
+	$(document).on('change', function(e){
+		
+		var vol = $('#vol_bar').val() / 100;
+			vol = vol.toFixed(1);
+
+			flash.setVolume(vol);
+	});
+
+
+	function play_video(){
 		//handles connect or play/pause toggle
-		if(!playing){
-			flash.stopRecording();
-			flash.connect('rtmp://localhost/SMSServer/');
+			if(!playing){
+				flash.stopRecording();
+				flash.connect('rtmp://localhost/SMSServer/');
 
-			playing = true;
-			recording = false;
+				playing = true;
+				recording = false;
 
-		}else{
-			flash.playPause();
-		}
-
-
-		//handles image toggle
-		if (!play_toggle){
-			
-			$('#play_btn').attr('src', 'images/pause.png');
-			play_toggle = true;
-			
-		}else{
-			$('#play_btn').attr('src', 'images/play.png');
-			play_toggle = false;
-		}
-		
-	});
-};// flashReady()
+			}else{
+				flash.playPause();
+			}
 
 
-//set volume init
-$(document).on('change', function(e){
-	
-	var vol = $('#vol_bar').val() / 100;
-		vol = vol.toFixed(1);
-
-		flash.setVolume(vol);
-});
-
-
-
+			//handles image toggle
+			if (!play_toggle){
+				
+				$('#play_btn').attr('src', 'images/pause.png');
+				play_toggle = true;
+				
+			}else{
+				$('#play_btn').attr('src', 'images/play.png');
+				play_toggle = false;
+			}
+	};
 
 
 
@@ -314,6 +316,7 @@ $(document).on('click', '#login_tw', function(e){
 			//populates comments & video fields
 			get_comments();
 			get_videos();
+
 
 		});//get()
 	};//login()
@@ -585,42 +588,42 @@ $(document).on('click', '#fav_btn', function(e){
 
 
 //------------body_nav header pin----------------//
-var click;
-$(window).scroll(function(e){
-	var y_pos = $(document).scrollTop();
-	var div_top = $('.body_nav').offset();
+// var click;
+// $(window).scroll(function(e){
+// 	var y_pos = $(document).scrollTop();
+// 	var div_top = $('.body_nav').offset();
 
-	//remove div from document flow and pin to top of window
-	//***********put in a toggle o prevent css setting on every pixel scrolled
-	if(div_top.top <= y_pos){
-		$('.body_nav').css({
-			'position' : 'fixed',
-			'top' : '0',
-			"z-index" : '9999'
-		});
+// 	//remove div from document flow and pin to top of window
+// 	//***********put in a toggle o prevent css setting on every pixel scrolled
+// 	if(div_top.top <= y_pos){
+// 		$('.body_nav').css({
+// 			'position' : 'fixed',
+// 			'top' : '0',
+// 			"z-index" : '9999'
+// 		});
 
-		//plays a click as header is pinned
-		if(!click){
-			var mp3 = new Audio('sounds/click.mp3').play();
-			click = true;
-		};
+// 		//plays a click as header is pinned
+// 		if(!click){
+// 			var mp3 = new Audio('sounds/click.mp3').play();
+// 			click = true;
+// 		};
 
-		//creates a smoother transition as div leaves document flow
-		$('.page').css('marginBottom', '90px');
-	}
+// 		//creates a smoother transition as div leaves document flow
+// 		$('.page').css('marginBottom', '90px');
+// 	}
 
-	//reinstate div's normal position in document.
-	if(div_top.top < '749'){
-		$('.body_nav').css({
-			'position' : 'relative',
-			'top' : '0',
-			"z-index" : '9999'
-		});
+// 	//reinstate div's normal position in document.
+// 	if(div_top.top < '749'){
+// 		$('.body_nav').css({
+// 			'position' : 'relative',
+// 			'top' : '0',
+// 			"z-index" : '9999'
+// 		});
 
-		click = false;
-		$('.page').css('marginBottom', '0');
-	}
-});
+// 		click = false;
+// 		$('.page').css('marginBottom', '0');
+// 	}
+// });
 
 
 
@@ -702,28 +705,6 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
-	function get_datetime(){
-		// datetime on 12 hr clock
-		var d = new Date();
-		var	day = d.getDay();
-		var month = d.getMonth() + 1;
-		var year = d.getFullYear();
-		var hour = d.getHours();
-		var minutes = d.getMinutes();
-		var time;
-		if(hour > 12){
-			hour = hour - 12;
-			time = hour + ":" + minutes;
-
-			time += "pm";
-		}
-
-		return month + "/" + day + "/" + year + " " + time;
-	};
-
-
-
-
 
 
 
@@ -759,7 +740,16 @@ $(document).on('click', '.sub_list a', function(e){
 	$(document).on('click', '.lesson', function(e){
 
 		var this_title = $(this).find('h2').html();
-		current_video = this_title;
+		var this_time = $(this).find('h3').html();
+		var this_desc = $(this).find('p').html();
+
+		current_video = this_title + ".flv";
+
+		flash.stopPlaying();
+		play_video();
+
+
+		render_info(this_title, this_time, this_desc);
 	});
 
 
@@ -836,6 +826,28 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
+
+	function get_datetime(){
+		// datetime on 12 hr clock
+		var d = new Date();
+		var	day = d.getDay();
+		var month = d.getMonth() + 1;
+		var year = d.getFullYear();
+		var hour = d.getHours();
+		var minutes = d.getMinutes();
+		var time;
+		if(hour > 12){
+			hour = hour - 12;
+			time = hour + ":" + minutes;
+
+			time += "pm";
+		}
+
+		return month + "/" + day + "/" + year + " " + time;
+	};
+
+
+
 //============================Renderers==============================//
 	function render_videos(){
 		
@@ -882,6 +894,24 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
+
+
+
+
+	function render_info(title, time, desc){
+
+		var s = '<div class="title_wrapper">';
+			s += '<h1>' + title + '</h1>';
+			s += '<p class="time">' + time + '</p>';
+			s += '</div><!-- /.title_wrapper-->';
+			s += '<p class="desc_copy">' + desc + '</p>';
+			s += '<div class="desc_gallery">';
+			s += '<a href="images/poster.jpg" data-lightbox="movie screenshots"><img src="images/shot.jpg" alt="movie screenshot 1"/></a>';
+			s += '<a href="images/poster.jpg" data-lightbox="movie screenshots"><img src="images/shot.jpg" alt="movie screenshot 2"/></a>';
+			s += '</div><!-- /.desc_gallery-->';
+
+		$('.desc').append(s);
+	};
 
 
 

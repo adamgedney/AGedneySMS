@@ -538,6 +538,7 @@ p.time{
 p.desc_copy{
 	// width: 501px;
 	@include col(5);
+	min-height: 175px;
 	margin-top: 15px;
 	float: left;
 	padding-bottom: 72px;
@@ -633,6 +634,7 @@ p.desc_copy{
 	h2{
 		display: inline;
 		margin-left: 9px;
+		font-size: 2.1em;
 	}
 
 	h3{
@@ -648,6 +650,7 @@ p.desc_copy{
 		// margin-left: 66px;
 		padding-bottom: 18px;
 		border-bottom: 1px solid $grey;
+		font-size: 1.2em;
 	}
 }
 
@@ -664,7 +667,7 @@ p.desc_copy{
 
 
 .lessons_container{
-	@include col(6);
+	@include col(4);
 	float: right;
 	padding-left: 18px;
 	padding-right: 36px;
@@ -673,27 +676,30 @@ p.desc_copy{
 
 .lesson{
 	margin-top: 36px;
+	border-bottom: 1px solid $grey;
 
 	img{
 		float: left;
 		margin: 9px 9px 0 0;
-		width: 200px;
-		height: 130px;
+		width: 115px;
+		height: 75px;
 	}
 
 	h2{
 		display: inline-block;
 		margin-bottom: 16px;
+		font-size: 2.1em;
 	}
 
 	h3{
 		display: inline;
 		margin-left: 18px;
+		font-size: 1.4em;
 	}
 
 	p{
 		padding-bottom: 18px;
-		border-bottom: 1px solid $grey;
+		font-size: 1.2em;
 	}
 }
 
