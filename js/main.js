@@ -727,21 +727,8 @@ $(document).on('click', '.sub_list a', function(e){
 	//set comments
 	$(document).on('click', '#submit_comment', function(e){
 		e.preventDefault();
-		var com = $('#new_comment').val();
-		var usr = current_user;
-		var d = get_datetime();
-		var t = current_video;
-
-
-		//pushes comment into messages object
-		comments_obj.push({user: usr, avatar: user_avatar, comment: com, created: d, title: t});
-
-		//resets comment form
-		$('#new_comment').val('');
-
-		//gets comments and appends to comment list
-		$('.comments_wrapper').empty();
-		get_comments();
+		
+		set_comment();
 
 	});
 
@@ -762,6 +749,7 @@ $(document).on('click', '.sub_list a', function(e){
 
 		// flash.stopPlaying();
 		play_video();
+		get_comments();
 
 
 		render_info(this_title, this_time, this_desc);
@@ -780,33 +768,57 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 //============================Getters/Setters==============================//
+	function set_comment(){
+		var com = $('#new_comment').val();
+		var usr = current_user;
+		var d = get_datetime();
+		var t = current_video;
+
+
+		//pushes comment into messages object
+		comments_obj.push({user: usr, avatar: user_avatar, comment: com, created: d, title: t});
+
+		//resets comment form
+		$('#new_comment').val('');
+
+		//gets comments and appends to comment list
+		get_comments();
+	};
+
+
+
+
 
 	//retrieve comments when there is a new one
 	//store in the comments_array
 	function get_comments(){
+		$('.comments_wrapper').empty();
 
 		comments_obj.on('child_added', function (snapshot) {
-		    
+		    console.log(snapshot.val().title, "comment in db");
+
 		    var comments = snapshot.val().comment;
 		    var users = snapshot.val().user;
 		    var created = snapshot.val().created;
 		    var avatar = snapshot.val().avatar;
 
-		  	//empties arrays
+		    //empties arrays
 		  	comments_array = [];
 		  	user_array = [];
 		  	created_array = [];
 		  	user_avatar_array = [];
-		  	
 
-		  	//pushes result strings into arrays
-		  	comments_array.push(comments);
-		  	user_array.push(users);
-		  	created_array.push(created);
-		  	user_avatar_array.push(avatar);
+		    if(snapshot.val().title == current_video){
+			  	
+			  	//pushes result strings into arrays
+			  	comments_array.push(comments);
+			  	user_array.push(users);
+			  	created_array.push(created);
+			  	user_avatar_array.push(avatar);
 
-		  
-		  	render_comments();
+			  
+			  	render_comments();
+			};
 		});
 	}; //get_comments()
 
