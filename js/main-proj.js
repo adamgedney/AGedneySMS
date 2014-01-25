@@ -2650,7 +2650,8 @@ var user_avatar_array = [];
 var comments_array = [];
 var user_array = [];
 var created_array = [];
-var video_array = [];
+var new_video = false;
+
 
 //firebase globals
 var db = new Firebase('https://adamgedney.firebaseio.com/');
@@ -2809,6 +2810,8 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 	};// flashReady()
 
 
+
+
 	//set volume init
 	$(document).on('change', function(e){
 		
@@ -2827,10 +2830,21 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 
 				playing = true;
 				recording = false;
+				new_video = false;
 
-			}else{
+			}else if(playing && !recording && new_video){
+
+				flash.stopPlaying();
+				flash.connect('rtmp://localhost/SMSServer/');
+				new_video = false;
+
+			}else if(playing && !new_video){
+				
 				flash.playPause();
+
 			}
+
+		
 
 
 			//handles image toggle
@@ -3363,8 +3377,9 @@ $(document).on('click', '.sub_list a', function(e){
 		var this_desc = $(this).find('p').html();
 
 		current_video = this_title + ".flv";
+		new_video = true;
 
-		flash.stopPlaying();
+		// flash.stopPlaying();
 		play_video();
 
 
@@ -3427,10 +3442,10 @@ $(document).on('click', '.sub_list a', function(e){
 
 		video_obj.on('child_added', function (snapshot) {
 		  
-		   	video_array = [];
+		   	var video_array = [];
 		    video_array.push(snapshot.val());
 		  	
-		  	render_videos();
+		  	render_videos(video_array);
 		});
 	}; //get_comments()
 
@@ -3468,7 +3483,7 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 //============================Renderers==============================//
-	function render_videos(){
+	function render_videos(video_array){
 		
 	  	for (var l=0;l<video_array.length;l++){
 		  	
@@ -3518,6 +3533,7 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 	function render_info(title, time, desc){
+		$('.desc').empty();
 
 		var s = '<div class="title_wrapper">';
 			s += '<h1>' + title + '</h1>';
