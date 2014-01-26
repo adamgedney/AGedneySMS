@@ -2623,34 +2623,42 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 // @codekit-prepend "lightbox-2.6.min.js"
 //@codekit-prepend "handlebars-v1.1.2.js" 
 
+
 //Globals
-var duration;
-var seek_time;
-var seek_bar_left;
-var seek_bar_right;
-var seek_scrub;
-var seek_bar_width;
-var xPos;
-var name;
-var cam_toggle;
-var mic_toggle;
-var rec_toggle;
-var fav_toggle;
-var mic_index = 0;//0 default mic
-var cam_index = 0;//0 default cam
-var drag = false;
-var play_toggle = false;
-var playing = false;
-var recording = false;
-var connection_open = false;
-var current_video;
-var current_user;
-var user_avatar;
-var user_avatar_array = [];
-var comments_array = [];
-var user_array = [];
-var created_array = [];
-var new_video = false;
+var global = {
+}
+
+global.duration;
+global.seek_time;
+global.seek_bar_left;
+global.seek_bar_right;
+global.seek_scrub;
+global.seek_bar_width;
+global.xPos;
+global.name;
+global.cam_toggle;
+global.mic_toggle;
+global.rec_toggle;
+global.fav_toggle;
+global.cat_toggle;
+global.v_toggle;
+global.f_toggle;
+global.log_toggle = false;
+global.mic_index = 0;//0 default mic
+global.cam_index = 0;//0 default cam
+global.drag = false;
+global.play_toggle = false;
+global.playing = false;
+global.recording = false;
+global.connection_open = false;
+global.current_video;
+global.current_user;
+global.user_avatar;
+global.user_avatar_array = [];
+global.comments_array = [];
+global.user_array = [];
+global.created_array = [];
+global.new_video = false;
 
 
 //firebase globals
@@ -2675,13 +2683,13 @@ var connected = function(success, error){
 	if(success){
 		connection_open = true;
 
-		if(recording){
-			flash.startRecording(name,cam_index,mic_index);
+		if(global.recording){
+			flash.startRecording(global.name, global.cam_index, global.mic_index);
 		}else{
-			flash.startPlaying(current_video);
+			flash.startPlaying(global.current_video);
 		};
 	}else{
-		connection_open = false;
+		global.connection_open = false;
 	}
 };
 
@@ -2691,7 +2699,7 @@ var connected = function(success, error){
 
 
 var getDuration = function(dur){
-	duration = dur;
+	global.duration = dur;
 };
 
 
@@ -2700,13 +2708,13 @@ var getDuration = function(dur){
 
 
 var seekTime = function(time){
-	seek_time = time;
+	global.seek_time = time;
 
-	xPos = (seek_time / duration) * seek_bar_right;
+	global.xPos = (global.seek_time / global.duration) * global.seek_bar_right;
 
 	// scrub position update only when not dragging
-	if(!drag){
-		$('#seek_bar_scrub').offset({left: seek_bar_left + xPos});
+	if(!global.drag){
+		$('#seek_bar_scrub').offset({left: global.seek_bar_left + global.xPos});
 	}
 
 };// seekTime()
@@ -2721,12 +2729,12 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 
 	if(!error){
 		if(user.provider == "github"){
-			current_user = user.displayName;
-			user_avatar = user.avatar_url;
+			global.current_user = user.displayName;
+			global.user_avatar = user.avatar_url;
 			login();
 		}else if(user.provider == "twitter"){
-			current_user = user.displayName;
-			user_avatar = user.profile_image_url;
+			global.current_user = user.displayName;
+			global.user_avatar = user.profile_image_url;
 			login();
 		}
 	}
@@ -2749,7 +2757,7 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 //========================Seek Bar drag/drop functionality=========================//
 	//mousedown to start drag
 	$(document).on('mousedown', '#seek_bar_scrub', function(e){
-		drag = true;
+		global.drag = true;
 
 		//required to prevent text selection on mouseout of seek_bar
 		e.preventDefault();
@@ -2758,15 +2766,15 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 
 	//mouseup to stop drag
 	$(document).on('mouseup', function(e){
-		drag = false;
+		global.drag = false;
 	});
 
 	//drag and setTime
 	function moving(){
 		$(document).on('mousemove', function(e){
-			var set_time = ((e.pageX - seek_bar_left) / seek_bar_width) * duration;
+			var set_time = ((e.pageX - global.seek_bar_left) / global.seek_bar_width) * global.duration;
 
-			if(drag){
+			if(global.drag){
 
 				$('#seek_bar_scrub').offset({left: e.pageX});
 
@@ -2774,11 +2782,11 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 				flash.setTime(set_time);
 
 				//creates a border 
-				if(seek_scrub < seek_bar_left){
-					$('#seek_bar_scrub').offset({left: seek_bar_left});
+				if(global.seek_scrub < global.seek_bar_left){
+					$('#seek_bar_scrub').offset({left: global.seek_bar_left});
 
-				}else if(seek_scrub > (seek_bar_right  - $('#seek_bar_scrub').width())){
-					$('#seek_bar_scrub').offset({left: (seek_bar_right - $('#seek_bar_scrub').width())});
+				}else if(global.seek_scrub > (global.seek_bar_right  - $('#seek_bar_scrub').width())){
+					$('#seek_bar_scrub').offset({left: (global.seek_bar_right - $('#seek_bar_scrub').width())});
 
 				};
 			};
@@ -2802,7 +2810,7 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 		
 
 
-		
+		//play click handler
 		$(document).on('click', '#play_btn', function(e){
 			
 			play_video();
@@ -2824,21 +2832,21 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 
 	function play_video(){
 		//handles connect or play/pause toggle
-			if(!playing){
+			if(!global.playing){
 				flash.stopRecording();
 				flash.connect('rtmp://localhost/SMSServer/');
 
-				playing = true;
-				recording = false;
-				new_video = false;
+				global.playing = true;
+				global.recording = false;
+				global.new_video = false;
 
-			}else if(playing && !recording && new_video){
+			}else if(global.playing && !global.recording && global.new_video){
 
 				flash.stopPlaying();
 				flash.connect('rtmp://localhost/SMSServer/');
-				new_video = false;
+				global.new_video = false;
 
-			}else if(playing && !new_video){
+			}else if(global.playing && !global.new_video){
 				
 				flash.playPause();
 
@@ -2848,14 +2856,14 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 
 
 			//handles image toggle
-			if (!play_toggle){
+			if (!global.play_toggle){
 				
 				$('#play_btn').attr('src', 'images/pause.png');
-				play_toggle = true;
+				global.play_toggle = true;
 				
 			}else{
 				$('#play_btn').attr('src', 'images/play.png');
-				play_toggle = false;
+				global.play_toggle = false;
 			}
 	};
 
@@ -2883,12 +2891,7 @@ function init(){
 		$('#content').append(template);
 
 		//defaults to hide upon program load
-		$('.transport_popup').hide();
-		$('.rec_select').hide();
-		$('.mic_select').hide();
-		$('.cam_select').hide();
-		$('.login_popup').hide();
-		$('.sub_list').hide();
+		hide_popups();
 
 	});//get()
 };//init()
@@ -2923,19 +2926,14 @@ $(document).on('click', '#login_tw', function(e){
 			$('#content').append(template);
 
 			//defaults to hide upon program load
-			$('.transport_popup').hide();
-			$('.rec_select').hide();
-			$('.mic_select').hide();
-			$('.cam_select').hide();
+			hide_popups();
 			$('.stop_rec_modal').hide();
-			$('.login_popup').hide();
-			$('.sub_list').hide();
 
 
-			seek_bar_width = $('#seek_bar_inner').width();
-			seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
-			seek_bar_right = seek_bar_left + seek_bar_width;
-			seek_scrub = $('#seek_bar_scrub').offset().left;
+			global.seek_bar_width = $('#seek_bar_inner').width();
+			global.seek_bar_left = Math.floor($('#seek_bar_inner').offset().left);
+			global.seek_bar_right = global.seek_bar_left + global.seek_bar_width;
+			global.seek_scrub = $('#seek_bar_scrub').offset().left;
 
 
 			swfobject.embedSWF(
@@ -2959,6 +2957,17 @@ $(document).on('click', '#login_tw', function(e){
 
 
 
+	function hide_popups(){
+		$('.transport_popup').hide();
+		$('.rec_select').hide();
+		$('.mic_select').hide();
+		$('.cam_select').hide();
+		$('.login_popup').hide();
+		$('.sub_list').hide();
+	};
+
+
+
 //Controls logout
 $(document).on('click', '#login_state', function(e){
 
@@ -2978,12 +2987,7 @@ $(document).on('click', '#login_state', function(e){
 			$('#content').append(template);
 
 			//defaults to hide upon program load
-			$('.transport_popup').hide();
-			$('.rec_select').hide();
-			$('.mic_select').hide();
-			$('.cam_select').hide();
-			$('.login_popup').hide();
-			$('.sub_list').hide();
+			hide_popups();
 
 		});//get()
 	};// if
@@ -2992,17 +2996,14 @@ $(document).on('click', '#login_state', function(e){
 
 
 //-------------Show/hide login dropdown----------------//
-
-var log_toggle = false;
-
 $(document).on('click', '#login_state', function(e){
 
-	if(!log_toggle){
+	if(!global.log_toggle){
 		$('.login_popup').fadeIn();
-		log_toggle = true;
+		global.log_toggle = true;
 	}else{
 		$('.login_popup').fadeOut();
-		log_toggle = false;
+		global.log_toggle = false;
 	}
 });
 
@@ -3018,19 +3019,17 @@ $(document).on('click', '#login_state', function(e){
 //camera select popup
 $(document).on('click', '#camera_btn', function(e){
 	
-	if (!cam_toggle){
+	if (!global.cam_toggle){
 		//hides other popups
-		$('.mic_select').hide();
-		$('.rec_select').hide();
+		$('.mic_select, .rec_select').hide();
 		$('#mic_btn').css('opacity', '1');
-		rec_toggle = false;
-		mic_toggle = false;
+		global.rec_toggle = false;
+		global.mic_toggle = false;
 
 		$('#camera_btn').css('opacity', '.5');
-		$('.transport_popup').fadeIn();
-		$('.cam_select').fadeIn();
+		$('.transport_popup, .cam_select').fadeIn();
 
-		cam_toggle = true;
+		global.cam_toggle = true;
 
 		//get and loop through attached cameras
 		var cam_list = flash.getCameras();
@@ -3043,10 +3042,9 @@ $(document).on('click', '#camera_btn', function(e){
 		
 	}else{
 		$('#camera_btn').css('opacity', '1');
-		$('.transport_popup').fadeOut();
-		$('.cam_select').fadeOut();
+		$('.transport_popup, .cam_select').fadeOut();
 
-		cam_toggle = false;
+		global.cam_toggle = false;
 	}
 	
 });
@@ -3054,7 +3052,7 @@ $(document).on('click', '#camera_btn', function(e){
 //select and store camera choice
 $(document).on('click', '.cameras a', function(e){
 	e.preventDefault();
-	cam_index = $(this).attr("id");
+	global.cam_index = $(this).attr("id");
 });
 
 
@@ -3064,19 +3062,17 @@ $(document).on('click', '.cameras a', function(e){
 //mic select popup
 $(document).on('click', '#mic_btn', function(e){
 	
-	if (!mic_toggle){
+	if (!global.mic_toggle){
 		//hides other popups
-		$('.cam_select').hide();
-		$('.rec_select').hide();
+		$('.cam_select, .rec_select').hide();
 		$('#camera_btn').css('opacity', '1');
-		cam_toggle = false;
-		rec_toggle = false;
+		global.cam_toggle = false;
+		global.rec_toggle = false;
 
 		$('#mic_btn').css('opacity', '.5');
-		$('.transport_popup').fadeIn();
-		$('.mic_select').fadeIn();
+		$('.transport_popup, .mic_select').fadeIn();
 
-		mic_toggle = true;
+		global.mic_toggle = true;
 
 		//get and loop through attached cameras
 		var mic_list = flash.getMicrophones();
@@ -3090,10 +3086,9 @@ $(document).on('click', '#mic_btn', function(e){
 
 	}else{
 		$('#mic_btn').css('opacity', '1');
-		$('.transport_popup').fadeOut();
-		$('.mic_select').fadeOut();
+		$('.transport_popup, .mic_select').fadeOut();
 
-		mic_toggle = false;
+		global.mic_toggle = false;
 	}
 	
 });
@@ -3101,7 +3096,7 @@ $(document).on('click', '#mic_btn', function(e){
 //select and store microphone choice
 $(document).on('click', '.mics a', function(e){
 	e.preventDefault();
-	mic_index = $(this).attr("id");
+	global.mic_index = $(this).attr("id");
 });
 
 
@@ -3114,29 +3109,23 @@ $(document).on('click', '.mics a', function(e){
 //record popup
 $(document).on('click', '#rec_btn', function(e){
 	
-	if (!rec_toggle){
+	if (!global.rec_toggle){
 		//hides other popups
-		$('.mic_select').hide();
-		$('.cam_select').hide();
-		$('#rec_btn').attr('src', 'images/cancel_rec.png');
-		$('#rec_btn').attr('title', 'Cancel Recording');
-		$('#mic_btn').css('opacity', '1');
-		$('#cam_btn').css('opacity', '1');
-		cam_toggle = false;
-		mic_toggle = false;
+		$('.mic_select, .cam_select').hide();
+		$('#rec_btn').attr('src', 'images/cancel_rec.png').attr('title', 'Cancel Recording');
+		$('#mic_btn, #cam_btn').css('opacity', '1');
+		global.cam_toggle = false;
+		global.mic_toggle = false;
 
-		$('.transport_popup').fadeIn();
-		$('.rec_select').fadeIn();
+		$('.transport_popup, .rec_select').fadeIn();
 
-		rec_toggle = true;
+		global.rec_toggle = true;
 	}else{
-		$('#rec_btn').attr('src', 'images/rec.png');
-		$('#rec_btn').attr('title', 'Record A Video');
+		$('#rec_btn').attr('src', 'images/rec.png').attr('title', 'Record A Video');
 
-		$('.transport_popup').fadeOut();
-		$('.rec_select').fadeOut();
+		$('.transport_popup, .rec_select').fadeOut();
 
-		rec_toggle = false;
+		global.rec_toggle = false;
 	}
 	
 });
@@ -3147,28 +3136,26 @@ $(document).on('click', '#rec_btn', function(e){
 $(document).on('click', '#start_recording', function(e){
 	e.preventDefault();
 
-	name = $('#name').val();
+	global.name = $('#name').val();
 	var cat = $('#category').val();
 	var desc = $('#file_desc').val();
 
 	//opens connection
 	flash.stopPlaying();
 	flash.connect('rtmp://localhost/SMSServer/');
-	recording = true;
-	playing = false;
+	global.recording = true;
+	global.playing = false;
 
 	// $('.poster').fadeOut();
 	$('.stop_rec_modal').fadeIn();
 
 	//resets the record modal
-	$('#rec_btn').attr('src', 'images/rec.png');
-	$('#rec_btn').attr('title', 'Record A Video');
-	$('.transport_popup').fadeOut();
-	$('.rec_select').fadeOut();
-	rec_toggle = false;
+	$('#rec_btn').attr('src', 'images/rec.png').attr('title', 'Record A Video');
+	$('.transport_popup, .rec_select').fadeOut();
+	global.rec_toggle = false;
 
 	//adds video to database
-	video_obj.push({video: name, category: cat, description: desc, author: current_user, created_date: get_datetime()});
+	video_obj.push({video: global.name, category: cat, description: desc, author: global.current_user, created_date: get_datetime()});
 
 
 });
@@ -3179,9 +3166,6 @@ $(document).on('click', '#start_recording', function(e){
 $(document).on('click', '#stop_rec', function(e){
 	flash.stopRecording();
 	$('.stop_rec_modal').hide();
-
-
-	// $('.poster').fadeIn();
 
 });	
 
@@ -3198,12 +3182,12 @@ $(document).on('click', '#stop_rec', function(e){
 //-------------Favorites button------------//
 $(document).on('click', '#fav_btn', function(e){
 	
-	if (!fav_toggle){
+	if (!global.fav_toggle){
 		$('#fav_btn').attr('src', 'images/star_y.png');
-		fav_toggle = true;
+		global.fav_toggle = true;
 	}else{
 		$('#fav_btn').attr('src', 'images/star.png');
-		fav_toggle = false;
+		global.fav_toggle = false;
 	}
 	
 });
@@ -3262,57 +3246,50 @@ $(document).on('click', '#fav_btn', function(e){
 
 
 //------------Category Dropdown----------------//
-var cat_toggle;
-var v_toggle;
-var f_toggle;
-
 $(document).on('click', '.drop_down', function(e){
 	e.preventDefault();
 
 	
 	if($(this).html() == 'My Videos'){
 
-		if(!v_toggle){
-			$('.vid_cats').fadeOut();
-			$('.favorited_vids').fadeOut();
-			f_toggle = false;
-			cat_toggle = false;
+		if(!global.v_toggle){
+			$('.vid_cats, .favorited_vids').fadeOut();
+			global.f_toggle = false;
+			global.cat_toggle = false;
 
 			$('.my_vids').fadeIn();
-			v_toggle = true;
+			global.v_toggle = true;
 		}else{
 			$('.my_vids').fadeOut();
-			v_toggle = false;
+			global.v_toggle = false;
 		}
 
 	}else if($(this).html() == 'Favorites'){
 
-		if(!f_toggle){
-			$('.my_vids').fadeOut();
-			$('.vid_cats').fadeOut();
-			cat_toggle = false;
-			v_toggle = false;
+		if(!global.f_toggle){
+			$('.my_vids, .vid_cats').fadeOut();
+			global.cat_toggle = false;
+			global.v_toggle = false;
 
 			$('.favorited_vids').fadeIn();
-			f_toggle = true;
+			global.f_toggle = true;
 		}else{
 			$('.favorited_vids').fadeOut();
-			f_toggle = false;
+			global.f_toggle = false;
 		}
 
 	}else if($(this).html() == 'Categories'){
 
-		if(!cat_toggle){
-			$('.favorited_vids').fadeOut();
-			$('.my_vids').fadeOut();
-			f_toggle = false;
-			v_toggle = false;
+		if(!global.cat_toggle){
+			$('.favorited_vids, .my_vids').fadeOut();
+			global.f_toggle = false;
+			global.v_toggle = false;
 
 			$('.vid_cats').fadeIn();
-			cat_toggle = true;
+			global.cat_toggle = true;
 		}else{
 			$('.vid_cats').fadeOut();
-			cat_toggle = false;
+			global.cat_toggle = false;
 		}
 	};
 });
@@ -3322,9 +3299,9 @@ $(document).on('click', '.sub_list a', function(e){
 	e.preventDefault();
 
 	$('.sub_list').fadeOut();
-	cat_toggle = false;
-	v_toggle = false;
-	f_toggle = false;
+	global.cat_toggle = false;
+	global.v_toggle = false;
+	global.f_toggle = false;
 });
 
 
@@ -3363,8 +3340,8 @@ $(document).on('click', '.sub_list a', function(e){
 		var this_time = $(this).find('h3').html();
 		var this_desc = $(this).find('p').html();
 
-		current_video = this_title + ".flv";
-		new_video = true;
+		global.current_video = this_title + ".flv";
+		global.new_video = true;
 
 		// flash.stopPlaying();
 		play_video();
@@ -3389,13 +3366,13 @@ $(document).on('click', '.sub_list a', function(e){
 //============================Getters/Setters==============================//
 	function set_comment(){
 		var com = $('#new_comment').val();
-		var usr = current_user;
+		var usr = global.current_user;
 		var d = get_datetime();
-		var t = current_video;
+		var t = global.current_video;
 
 
 		//pushes comment into messages object
-		comments_obj.push({user: usr, avatar: user_avatar, comment: com, created: d, title: t});
+		comments_obj.push({user: usr, avatar: global.user_avatar, comment: com, created: d, title: t});
 
 		//resets comment form
 		$('#new_comment').val('');
@@ -3422,18 +3399,18 @@ $(document).on('click', '.sub_list a', function(e){
 		    var avatar = snapshot.val().avatar;
 
 		    //empties arrays
-		  	comments_array = [];
-		  	user_array = [];
-		  	created_array = [];
-		  	user_avatar_array = [];
+		  	global.comments_array = [];
+		  	global.user_array = [];
+		  	global.created_array = [];
+		  	global.user_avatar_array = [];
 
-		    if(snapshot.val().title == current_video){
+		    if(snapshot.val().title == global.current_video){
 			  	
 			  	//pushes result strings into arrays
-			  	comments_array.push(comments);
-			  	user_array.push(users);
-			  	created_array.push(created);
-			  	user_avatar_array.push(avatar);
+			  	global.comments_array.push(comments);
+			  	global.user_array.push(users);
+			  	global.created_array.push(created);
+			  	global.user_avatar_array.push(avatar);
 
 			  
 			  	render_comments();
@@ -3482,7 +3459,7 @@ $(document).on('click', '.sub_list a', function(e){
 		var hour = d.getHours();
 		var minutes = d.getMinutes();
 		var time;
-		if(hour > 12){
+		if(hour >= 13){
 			hour = hour - 12;
 			time = hour + ":" + minutes;
 
@@ -3522,13 +3499,13 @@ $(document).on('click', '.sub_list a', function(e){
 
 	function render_comments(){
 		
-	  	for (var k=0;k<comments_array.length;k++){
+	  	for (var k=0;k<global.comments_array.length;k++){
 		  	
 		  	var s = '<div class="comment">';
-		  		s += '<a href="' + user_avatar_array[k] + '" data-lightbox="avatar id" ><img src="' + user_avatar_array[k] + '" alt="user avatar" /></a>';
-		  		s += '<h2>' + user_array[k] + '</h2>';
-		  		s += '<h3>' + created_array[k] + '</h3>';
-		  		s += '<p>' + comments_array[k] + '</p>';
+		  		s += '<a href="' + global.user_avatar_array[k] + '" data-lightbox="avatar id" ><img src="' + global.user_avatar_array[k] + '" alt="user avatar" /></a>';
+		  		s += '<h2>' + global.user_array[k] + '</h2>';
+		  		s += '<h3>' + global.created_array[k] + '</h3>';
+		  		s += '<p>' + global.comments_array[k] + '</p>';
 				s += '</div><!-- /.comment-->';					
 									
 		  	$('.comments_wrapper').append(s);
