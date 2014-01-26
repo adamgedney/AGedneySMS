@@ -546,8 +546,8 @@ p.desc_copy{
 
 .desc_gallery{
 	float: right;
-	margin-right: 18px;
-	margin-top: 18px;
+	// margin-right: 18px;
+	// margin-top: 18px;
 	@include col(6);
 
 	img{
@@ -556,7 +556,6 @@ p.desc_copy{
 		border-radius: 107px;
 	}
 }
-
 
 
 
@@ -667,7 +666,7 @@ p.desc_copy{
 
 
 .lessons_container{
-	@include col(4);
+	@include col(5);
 	float: right;
 	padding-left: 18px;
 	padding-right: 36px;
@@ -677,10 +676,11 @@ p.desc_copy{
 .lesson{
 	margin-top: 36px;
 	border-bottom: 1px solid $grey;
+	overflow: hidden;
 
 	img{
 		float: left;
-		margin: 9px 9px 0 0;
+		margin: 7px 9px 0 0;
 		width: 115px;
 		height: 75px;
 	}
@@ -698,6 +698,8 @@ p.desc_copy{
 	}
 
 	p{
+		@include col(8);
+		float: left;
 		padding-bottom: 18px;
 		font-size: 1.2em;
 	}
