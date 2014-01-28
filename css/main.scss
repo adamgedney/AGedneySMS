@@ -624,7 +624,7 @@ p.desc_copy{
 
 .comment{
 	margin-top: 36px;
-
+	border-bottom: 1px solid $grey;
 	img{
 		border-radius: 27px;
 		// margin-bottom: -15px;
@@ -648,12 +648,14 @@ p.desc_copy{
 		margin-top: 6px;
 		// margin-left: 66px;
 		padding-bottom: 18px;
-		border-bottom: 1px solid $grey;
+		
 		font-size: 1.2em;
 	}
 }
 
-
+.comment:last-child{
+	border-bottom: 0;
+}
 
 
 
@@ -705,7 +707,9 @@ p.desc_copy{
 	}
 }
 
-
+.lesson:last-child{
+	border-bottom: 0;
+}
 
 
 

@@ -1,7 +1,7 @@
 //@codekit-prepend "jquery-1.10.2.min.js"
 //@codekit-prepend "jquery.event.special.js"
 //@codekit-prepend "jquery.easing.min.js"
-// @codekit-prepend "lightbox-2.6.min.js"
+//@codekit-prepend "lightbox-2.6.min.js"
 //@codekit-prepend "handlebars-v1.1.2.js" 
 
 
@@ -32,7 +32,7 @@ global.play_toggle = false;
 global.playing = false;
 global.recording = false;
 global.connection_open = false;
-global.current_video;
+global.current_video;// = "cowscowscows1.flv";
 global.current_user;
 global.user_avatar;
 global.user_avatar_array = [];
@@ -190,12 +190,13 @@ var auth = new FirebaseSimpleLogin(db, function(error, user){
 		$('#vol_bar').val(100);
 		
 
-
 		//play click handler
 		$(document).on('click', '#play_btn', function(e){
 			
 			play_video();
 		});
+
+
 	};// flashReady()
 
 
@@ -326,9 +327,13 @@ $(document).on('click', '#login_tw', function(e){
 			swfobject.createCSS("#flashContent", "display:block;text-align:left;");
 
 			//populates comments & video fields
-			get_comments();
-			get_videos();
-
+			
+			
+			setTimeout(function(){
+				get_videos();
+			}, 500);
+			
+			// get_comments();
 
 		});//get()
 	};//login()
@@ -715,22 +720,8 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 	//select lesson from list & set current video to this value
-	$(document).on('click', '.lesson', function(e){
+	$(document).on('click', '.lesson', set_video);
 
-		var this_title = $(this).find('h2').html();
-		var this_time = $(this).find('h3').html();
-		var this_desc = $(this).find('p').html();
-
-		global.current_video = this_title + ".flv";
-		global.new_video = true;
-
-		// flash.stopPlaying();
-		play_video();
-		get_comments();
-
-
-		render_info(this_title, this_time, this_desc);
-	});
 
 
 
@@ -761,6 +752,11 @@ $(document).on('click', '.sub_list a', function(e){
 		//gets comments and appends to comment list
 		get_comments();
 	};
+
+
+
+
+
 
 
 
@@ -807,13 +803,44 @@ $(document).on('click', '.sub_list a', function(e){
 
 
 
+
+
+
 	
+	function set_video(e){
+		var this_title = $(this).find('h2').html();
+		var this_time = $(this).find('h3').html();
+		var this_desc = $(this).find('p').html();
+
+		global.current_video = this_title + ".flv";
+		global.new_video = true;
+
+		// flash.stopPlaying();
+		play_video();
+		get_comments();
+
+
+		render_info(this_title, this_time, this_desc);
+	};
+
+
+
+
+
+
+
+
+
+
 	function get_videos(){
 
 		video_obj.on('child_added', function (snapshot) {
 		  
 		   	var video_array = [];
 		    video_array.push(snapshot.val());
+
+		    //sets first video to current for page load default video
+		  	global.current_video = video_array[0].video + ".flv";
 		  	
 		  	render_videos(video_array);
 		});
