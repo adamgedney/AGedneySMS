@@ -840,7 +840,7 @@ $(document).on('click', '.sub_list a', function(e){
 		    video_array.push(snapshot.val());
 
 		    //sets first video to current for page load default video
-		  	global.current_video = video_array[0].video + ".flv";
+		  	// global.current_video = video_array[0].video + ".flv";
 		  	
 		  	render_videos(video_array);
 		});
